@@ -7,4 +7,4 @@ Yleisiä linkkejä:
 
 ## Työn aihe
 
-Järjestelmä tarjoaa tietoa jalkapallokannatuslauluista sekä niissä käytettävistä melodioista.
+Jalkapallokannatuslaulujen melodiat ovat usein lähtöisin populaarimusiikista. Alkuperäiskappaleiden ikääntyessä niiden suosio hiipuu, ja yhteys jalkapallon ulkopuoliseen maailmaan hämärtyy. Järjestelmä pyrkii tarjoamaan tietoa sävelmien alkuperästä sekä niiden kuuluisista esittäjistä.
