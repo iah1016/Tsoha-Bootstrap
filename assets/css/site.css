@@ -8,3 +8,11 @@
   max-width: 1200px;
   margin: 0px auto;
 }
+
+html { 
+  background: url(La_Bombonera.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
