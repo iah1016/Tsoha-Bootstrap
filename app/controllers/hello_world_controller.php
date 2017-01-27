@@ -5,7 +5,7 @@ class HelloWorldController extends BaseController {
     public static function index() {
         // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
         // View::make('home.html');
-        echo 'Tämä on etusivu!';
+        View::make('suunnitelmat/first.html');
     }
 
     public static function sandbox() {
@@ -13,16 +13,19 @@ class HelloWorldController extends BaseController {
         View::make('helloworld.html');
         }
 
-    public static function listview(){
-        View::make('suunnitelmat/list.html');
+    public static function song_list(){
+        View::make('suunnitelmat/song_list.html');
     }
 
-    public static function show() {
-        View::make('suunnitelmat/show.html');
+    public static function song_show() {
+        View::make('suunnitelmat/song_show.html');
     }
 
-    public static function edit() {
-        View::make('suunnitelmat/edit.html');
+    public static function song_edit() {
+        View::make('suunnitelmat/song_edit.html');
     }
 
+    public static function login() {
+        View::make('suunnitelmat/login.html');
+    }
 }

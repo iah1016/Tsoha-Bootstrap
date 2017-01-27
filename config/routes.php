@@ -9,13 +9,17 @@
   });
 
   $routes->get('/testi', function() {
-    HelloWorldController::listview();
+    HelloWorldController::song_list();
   });
   
-  $routes->get('/testi/1', function() {
-    HelloWorldController::show();
+  $routes->get('/testi/show_song', function() {
+    HelloWorldController::song_show();
   });
   
-  $routes->get('/testi/2', function() {
-    HelloWorldController::edit();
+  $routes->get('/testi/edit_song', function() {
+    HelloWorldController::song_edit();
+  });
+  
+  $routes->get('/login', function() {
+    HelloWorldController::login();
   });
