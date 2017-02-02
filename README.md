@@ -6,9 +6,9 @@ Yleisiä linkkejä:
 * [Dokumentaatio](https://github.com/iah1016/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 Suunnitelmanäkymät:
-* [Kappaleiden listaus](http://ilha.users.cs.helsinki.fi/tsoha/testi)
-* [Kappaleen esittely](http://ilha.users.cs.helsinki.fi/tsoha/testi/show_song)
-* [Kappaleen muokkaus](http://ilha.users.cs.helsinki.fi/tsoha/testi/edit_song)
+* [Kappaleiden listaus](http://ilha.users.cs.helsinki.fi/tsoha/layout)
+* [Kappaleen esittely](http://ilha.users.cs.helsinki.fi/tsoha/layout/show_song)
+* [Kappaleen muokkaus](http://ilha.users.cs.helsinki.fi/tsoha/layout/edit_song)
 * [Sisäänkirjautuminen](http://ilha.users.cs.helsinki.fi/tsoha/login)
 
 ## Työn aihe
