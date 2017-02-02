@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
+<h1>{{song.name}}</h1>
+
+<!-- Youtube-video -->
+<iframe width="560" height="315" src="#" frameborder="0" allowfullscreen></iframe>
+
+<!-- tiedot -->
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Written by</th>
+            <td>{{song.written_by}}</td>
+        </tr>
+        <tr>
+            <th>Year</th>
+            <td>{{song.year}}</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td>{{song.country}}</td>
+        </tr>
+        <tr>
+            <th>Genre</th>
+            <td>{{song.genre}}</td>
+        </tr>
+    </thead>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Associated Performers</th>
+        </tr>
+        <tr><td>TBA</td></tr>
+    </thead>
+</table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Associated Chants</th>
+        </tr>
+        <tr><td>TBA</td></tr>
+    </thead>
+</table>
+<p>
+    <a href="{{base_path}}/song" class="btn btn-default" role="button">Return</a>
+    <a href="{{base_path}}/song/{{song.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+    <a href="#" class="btn btn-danger" role="button">Remove</a>
+    
+</p>
+{% endblock %}

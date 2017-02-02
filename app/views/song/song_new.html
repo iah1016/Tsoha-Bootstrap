@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>Add a Song</h1>
+
+<form method="post" action="{{base_path}}/song">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" type="text" placeholder="Tramp! Tramp! Tramp!">
+    </div>
+
+    <div class="form-group">
+        <label>Written by</label>
+        <input name="written_by" class="form-control" type="text" placeholder="George F. Root">
+    </div>
+
+    <div class="form-group">
+        <label>Year</label>
+        <input name="year" class="form-control" type="text" placeholder="1864">
+    </div>
+
+    <div class="form-group">
+        <label>Country of origin</label>
+        <input name="country" class="form-control" type="text" placeholder="USA">
+    </div>
+    
+    <div class="form-group">
+        <label>Genre</label>
+        <input name="genre" class="form-control" type="text" placeholder="Popular music, Wartime">
+    </div>
+    
+    <div class="form-group">
+        <label>Link to a Youtube video</label>
+        <input name="link" class="form-control" type="text" placeholder="not yet implemented">
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
+{% endblock %}
