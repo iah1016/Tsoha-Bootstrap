@@ -4,26 +4,26 @@
 <form>
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" value="This Is How It Feels" type="text">
+        <input class="form-control" value="{{song.name}}" type="text">
     </div>
     <div class="form-group">
         <label>Written by</label>
-        <input class="form-control" value="Clint Boon" type="text">
+        <input class="form-control" value="{{song.written_by}}" type="text">
     </div>
     <div class="form-group">
         <label>Year</label>
-        <input class="form-control" value="Year" type="text">
+        <input class="form-control" value="{{song.year}}" type="text">
     </div>
     <div class="form-group">
         <label>Country</label>
-        <input class="form-control" value="United Kingdom" type="text">
+        <input class="form-control" value="{{song.country}}" type="text">
     </div>
     <div class="form-group">
         <label>Genre</label>
-        <input class="form-control" value="Madchester" type="text">
+        <input class="form-control" value="{{song.genre}}" type="text">
     </div>
     <div class="form-group">
-      <a href="{{base_path}}/testi" class="btn btn-default" role="button">Return</a>
+      <a href="{{base_path}}/song/{{song.id}}" class="btn btn-default" role="button">Return</a>
       <button type="submit" class="btn btn-primary">Apply</button>
     </div>
 </form>

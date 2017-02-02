@@ -1,19 +1,16 @@
 <?php
 
-// etusivu
-
+// (tilapäinen) etusivu
 $routes->get('/', function() {
     HelloWorldController::index();
 });
 
-// sisäänkirjautuminen
-
+// (tilapäinen) sisäänkirjautuminen
 $routes->get('/login', function() {
     HelloWorldController::login();
 });
 
-// kannatuslaulut (lisää, listaa, näytä)
-
+// kannatuslaulut (lisää tietokantaan ja lisää/listaa/näytä-näkymät)
 $routes->post('/song', function() {
     SongController::store();
 });
@@ -30,14 +27,17 @@ $routes->get('/song/:id', function($id) {
     SongController::show($id);
 });
 
-// hiekkalaatikko
+// kannatuslaulut - muokkaa-näkymä (ei vielä toteutusta viikolla 3)
+$routes->get('/song/:id/edit', function($id) {
+    SongController::edit($id);
+});
 
+// hiekkalaatikko
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
 });
 
 // suunnitelmat näkymille
-
 $routes->get('/layout', function() {
     HelloWorldController::song_list();
 });

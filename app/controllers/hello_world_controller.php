@@ -16,6 +16,7 @@ class HelloWorldController extends BaseController {
         View::make('suunnitelmat/login.html');
     }
     
+    // hiekkalaatikko
     public static function sandbox() {
         $all_songs = Song::all();
         $first_song = Song::find(1);
@@ -24,6 +25,8 @@ class HelloWorldController extends BaseController {
         Kint::dump($first_song);
     }
 
+    
+    // suunnitelmat näkymille
     public static function song_list() {
         View::make('suunnitelmat/song_list.html');
     }

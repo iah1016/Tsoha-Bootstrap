@@ -18,7 +18,7 @@ class SongController extends BaseController {
 
     public static function store() {
         $params = $_POST;
-//        lisää youtube-linkin toteutus!!
+        // lisää youtube-linkin toteutus!!
         $song = new Song(array(
             'name' => $params['name'],
             'written_by' => $params['written_by'],
@@ -33,6 +33,12 @@ class SongController extends BaseController {
 
         Redirect::to('/song/'
                 . $song->id, array('message' => 'Song added successfully'));
+    }
+    
+    // muokkaa-näkymässä ei tehdä vielä mitään (vko 3)
+    public static function edit($id) {
+        $song = Song::find($id);
+        View::make('song/song_edit.html', array('song' => $song));
     }
 
 }
