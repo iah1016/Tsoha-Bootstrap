@@ -14,3 +14,15 @@ Suunnitelmanäkymät:
 ## Työn aihe
 
 Jalkapallokannatuslaulujen melodiat ovat usein lähtöisin populaarimusiikista. Alkuperäiskappaleiden ikääntyessä niiden suosio hiipuu, ja yhteys jalkapallon ulkopuoliseen maailmaan hämärtyy. Järjestelmä pyrkii tarjoamaan tietoa sävelmien alkuperästä sekä niiden kuuluisista esittäjistä.
+
+## Testikäyttäjät
+
+_tunnus:_
+urpo
+_salasana:_
+1234
+
+_tunnus:_
+pekka
+_salasana:_
+salasana
