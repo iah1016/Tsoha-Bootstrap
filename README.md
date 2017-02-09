@@ -17,12 +17,9 @@ Jalkapallokannatuslaulujen melodiat ovat usein lähtöisin populaarimusiikista. 
 
 ## Testikäyttäjät
 
-_tunnus:_
-urpo
-_salasana:_
-1234
+tunnus: urpo
+salasana: 1234
 
-_tunnus:_
-pekka
-_salasana:_
-salasana
+
+tunnus: pekka
+salasana: salasana
