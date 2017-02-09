@@ -1,4 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
 <h1>Welcome to The Tunes Behind Football Chants!</h1>
 {% endblock %}

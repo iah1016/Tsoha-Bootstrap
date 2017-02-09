@@ -18,11 +18,21 @@ class HelloWorldController extends BaseController {
     
     // hiekkalaatikko
     public static function sandbox() {
-        $all_songs = Song::all();
-        $first_song = Song::find(1);
-
-        Kint::dump($all_songs);
-        Kint::dump($first_song);
+        $test_song = new Song(array(
+           'name' => 'diipadaapa',
+            'written_by' => 'c',
+            'year' => '200X',
+            'country' => 'UK',
+            'genre' => '' 
+        ));
+//        $errors = $test_song->errors();
+//        Kint::dump($errors);
+        
+//        $all_songs = Song::all();
+//        $first_song = Song::find(1);
+//
+//        Kint::dump($all_songs);
+//        Kint::dump($first_song);
     }
 
     

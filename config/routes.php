@@ -5,9 +5,13 @@ $routes->get('/', function() {
     HelloWorldController::index();
 });
 
-// (tilapäinen) sisäänkirjautuminen
+// sisäänkirjautuminen
 $routes->get('/login', function() {
-    HelloWorldController::login();
+    UserController::login();
+});
+
+$routes->post('/login', function() {
+    UserController::handle_login();
 });
 
 // kannatuslaulut (lisää tietokantaan ja lisää/listaa/näytä-näkymät)
@@ -27,9 +31,15 @@ $routes->get('/song/:id', function($id) {
     SongController::show($id);
 });
 
-// kannatuslaulut - muokkaa-näkymä (ei vielä toteutusta viikolla 3)
+// kannatuslaulut - muokkaa/tuhoa-näkymät
 $routes->get('/song/:id/edit', function($id) {
     SongController::edit($id);
+});
+$routes->post('/song/:id/edit', function($id) {
+    SongController::update($id);
+});
+$routes->post('/song/:id/destroy', function($id) {
+    SongController::destroy($id);
 });
 
 // hiekkalaatikko

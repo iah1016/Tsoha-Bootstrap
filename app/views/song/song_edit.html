@@ -1,30 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
+
+{% if errors %}
+<div class = "alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 <h1>Edit the Song Data</h1>
-<form>
+
+<form method="post" action="{{base_path}}/song/{{attributes.id}}/edit">
     <div class="form-group">
         <label>Name</label>
-        <input class="form-control" value="{{song.name}}" type="text">
+        <input name="name" class="form-control" value="{{attributes.name}}" type="text">
     </div>
+
     <div class="form-group">
         <label>Written by</label>
-        <input class="form-control" value="{{song.written_by}}" type="text">
+        <input name="written_by" class="form-control" value="{{attributes.written_by}}" type="text">
     </div>
+
     <div class="form-group">
         <label>Year</label>
-        <input class="form-control" value="{{song.year}}" type="text">
+        <input name="year" class="form-control" value="{{attributes.year}}" type="text">
     </div>
+
     <div class="form-group">
-        <label>Country</label>
-        <input class="form-control" value="{{song.country}}" type="text">
+        <label>Country of origin</label>
+        <input name="country" class="form-control" value="{{attributes.country}}" type="text">
     </div>
+
     <div class="form-group">
         <label>Genre</label>
-        <input class="form-control" value="{{song.genre}}" type="text">
+        <input name="genre" class="form-control" value="{{attributes.genre}}" type="text">
     </div>
+        
     <div class="form-group">
-      <a href="{{base_path}}/song/{{song.id}}" class="btn btn-default" role="button">Return</a>
-      <button type="submit" class="btn btn-primary">Apply</button>
+        <label>Link to a Youtube video</label>
+        <input name="link" class="form-control" type="text" placeholder="not yet implemented">
     </div>
+    
+    {% if user_logged_in %}
+    <div class="form-group">
+        <a href="{{base_path}}/song" class="btn btn-default" role="button">Return</a>
+        <button type="submit" class="btn btn-primary">Apply</button>
+    </div>
+    {% endif %}
+    
 </form>
 {% endblock %}
