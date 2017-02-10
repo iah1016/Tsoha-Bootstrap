@@ -27,24 +27,29 @@ class User extends BaseModel {
 
         if ($result) {
             return new User(array(
+                'id' => $result['id'],
                 'username' => $result['username'],
                 'password' => $result['password']
             ));
         } else {
             return null;
-        }
+        }  
     }
 
-    public static function find($username) {
+    public static function find($id) {
         $query = DB::connection()->prepare(
-                'SELECT username FROM SignedUser '
-                . 'WHERE username = :username'
+                'SELECT * FROM SignedUser '
+                . 'WHERE id = :id'
         );
-        $query->execute(array('username' => $username));
+        $query->execute(array('id' => $id));
         $result = $query->fetch();
-
+        
         if ($result) {
-            return new User(array('username' => $result['username']));
+            return new User(array(
+                'id' => $result['id'],
+                'username' => $result['username'],
+                'password' => $result['password']
+                ));
         } else {
             return null;
         }

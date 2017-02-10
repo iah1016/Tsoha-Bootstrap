@@ -16,7 +16,7 @@ class UserController extends BaseController {
                 'error' => 'Incorrect username or password',
                 'username' => $params['username']));
         } else {
-            $_SESSION['user'] = $user->username;
+            $_SESSION['user'] = $user->id;
 
             Redirect::to('/', array(
                 'message' => 'Welcome back, ' . $user->username . '!'));
