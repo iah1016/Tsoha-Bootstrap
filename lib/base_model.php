@@ -42,7 +42,7 @@ class BaseModel {
 
         return $errors;
     }
-
+    
     public function validate_numeric($attrib_name, $string) {
         $errors = array();
         

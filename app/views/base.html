@@ -1,76 +1,84 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>
-      {% block title %}
-        The Tunes Behind Football Chants
-      {% endblock %}
-    </title>
+        <title>
+            {% block title %}
+            The Tunes Behind Football Chants
+            {% endblock %}
+        </title>
 
-    {% block head %}
-      <!-- Bootstrap (tyylitiedosto) -->
-      <link href="{{base_path}}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        {% block head %}
+        <!-- Bootstrap (tyylitiedosto) -->
+        <link href="{{base_path}}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-      <!-- Oma tyylitiedostomme -->
-      <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
-    {% endblock %}
-  </head>
+        <!-- Oma tyylitiedostomme -->
+        <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
+        {% endblock %}
+    </head>
 
-  <body>
+    <body>
 
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
 
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <!-- Sovelluksen nimi -->
-          <a class="navbar-brand" href="{{base_path}}">The Tunes Behind Football Chants</a>
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Sovelluksen nimi -->
+                    <a class="navbar-brand" href="{{base_path}}">The Tunes Behind Football Chants</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="nav navbar-nav">
+                        <!-- Navigaation linkit -->
+                        <li><a href="{{base_path}}/song">Songs</a></li>
+                        <li><a href="{{base_path}}/">Performers</a></li>
+                        <li><a href="{{base_path}}/chant">Chants</a></li>
+                        <li><a href="{{base_path}}/club">Clubs</a></li>
+                    </ul>
+
+                    {% if user_logged_in %}
+                    <form class="navbar-form navbar-right" method="post" action="{{base_path}}/logout">
+                        <button type="submit" class="btn btn-default">Logout</button>
+                    </form>
+                    {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{base_path}}/login">Sign In</a></li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+
+        <div id="main-container">
+            <!-- Dynaaminen sisältö tulee tähän -->
+            {% block content %}{% endblock %}
         </div>
 
-        <div class="collapse navbar-collapse" id="navigation">
-          <ul class="nav navbar-nav">
-            <!-- Navigaation linkit -->
-            <li><a href="{{base_path}}/song">Songs</a></li>
-            <li><a href="{{base_path}}/">Performers</a></li>
-            <li><a href="{{base_path}}/">Chants</a></li>
-            <li><a href="{{base_path}}/">Clubs</a></li>
-          </ul>
-            
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="{{base_path}}/login">Sign In</a></li>
-          </ul>
+        {% block body %}
+        <!-- jQuery -->
+        <script src="{{base_path}}/vendor/jquery.min.js"></script>
+
+        <!-- Bootstrap (skriptitiedosto) -->
+        <script src="{{base_path}}/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Oma skriptitiedostomme -->
+        <script src="{{base_path}}/assets/js/site.js"></script>
+        {% endblock %}
+        
+        <!-- Taustakuvan lisenssitiedot -->
+        <div class="footer navbar-fixed-bottom">
+            <p class="text-right">
+                <a href="https://www.flickr.com/photos/26298797@N07/2580073753/" style="color: #F0F8FF">Picture by: Steven Newton (CC BY 2.0)</a>
+            </p>
         </div>
-      </div>
-    </nav>
-
-    <div id="main-container">
-      <!-- Dynaaminen sisältö tulee tähän -->
-      {% block content %}{% endblock %}
-    </div>
-
-    {% block body %}
-      <!-- jQuery -->
-      <script src="{{base_path}}/vendor/jquery.min.js"></script>
-
-      <!-- Bootstrap (skriptitiedosto) -->
-      <script src="{{base_path}}/vendor/bootstrap/js/bootstrap.min.js"></script>
-
-      <!-- Oma skriptitiedostomme -->
-      <script src="{{base_path}}/assets/js/site.js"></script>
-    {% endblock %}
-    <div class="footer navbar-fixed-bottom">
-        <p class="text-right">
-            <a href="https://www.flickr.com/photos/26298797@N07/2580073753/" style="color: #F0F8FF">Picture by: Steven Newton (CC BY 2.0)</a>
-        </p>
-    </div>
-  </body>
+    </body>
 </html>

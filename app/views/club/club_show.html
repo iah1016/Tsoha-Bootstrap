@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+{% import "macros/forms.html" as forms %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
+<h1>{{club.name}}</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Country</th>
+            <td>{{club.country}}</td>
+        </tr>
+        <tr>
+            <th>League</th>
+            <td>{{club.league}}</td>
+        </tr>
+    </thead>
+</table>
+
+<a href="{{base_path}}/club" class="btn btn-default" role="button">Return</a>
+
+{% if user_logged_in %}
+<a href="{{base_path}}/club/{{club.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+{{forms.destroy_button("#{base_path}/club/#{club.id}/destroy")}}
+{% endif %}
+
+{% endblock %}

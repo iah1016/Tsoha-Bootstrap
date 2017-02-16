@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-success">
+    {{message}}
+</div>
+{% endif %}
+
+<h1>Chant List</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Chant</th>
+            <th>Original song</th>
+            <th>Associated club(s)</th>
+
+            {% if user_logged_in %}
+            <th></th>
+            {% endif %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for chant in chants %}
+        <tr>
+            <td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td>
+            <td><a href="{{base_path}}/song/{{chant.song.id}}">{{chant.song.name}}</td>
+            <td>Not yet implemented</td>
+            {% if user_logged_in %}
+            <td><a class="btn btn-primary" href="{{base_path}}/chant/{{chant.id}}/edit" role="button">Edit</a></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% if user_logged_in %}
+<p>
+    <a href="{{base_path}}/chant/new" class="btn btn-success" role="button">Add a Chant</a>
+</p>
+{% endif %}
+
+
+{% endblock %}

@@ -11,7 +11,8 @@ CREATE TABLE Song(
     written_by varchar(50),
     year integer,
     country varchar(50),
-    genre varchar(50)
+    genre varchar(50),
+    ytube_id varchar(12)
 );
 
 CREATE TABLE Performer(
