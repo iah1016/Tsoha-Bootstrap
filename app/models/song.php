@@ -21,7 +21,7 @@ class Song extends BaseModel {
             'validate_ytube_string'
         );
     }
-    
+
     // read
     public static function all() {
         $rows = parent::all_rows_from_table('Song');
@@ -42,6 +42,19 @@ class Song extends BaseModel {
             return $song;
         }
         return null;
+    }
+
+    public static function find_all_where_id_in($ids) {
+        $songs = array();
+        if (empty($ids)) {
+            return $songs;
+        }
+        $rows = parent::all_rows_where_id_in('Song', $ids);
+
+        foreach ($rows as $row) {
+            $songs[] = self::create_new_song($row);
+        }
+        return $songs;
     }
 
     // create, update, destroy

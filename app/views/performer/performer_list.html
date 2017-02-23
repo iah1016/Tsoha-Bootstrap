@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 {% if message %}
 <div class="alert alert-success">
@@ -32,7 +33,10 @@
             <td>{{performer.genre}}</td>
 
             {% if user_logged_in %}
-            <td><a class="btn btn-primary" href="{{base_path}}/performer/{{performer.id}}/edit" role="button">Edit</a></td>
+            <td>
+                {{forms.edit_button("#{base_path}/performer/#{performer.id}/edit")}}
+                {{forms.destroy_button("#{base_path}/performer/#{performer.id}/destroy")}}
+            </td>
             {% endif %}
         </tr>
         {% endfor %}

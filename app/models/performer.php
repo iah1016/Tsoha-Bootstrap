@@ -7,7 +7,7 @@
  */
 class Performer extends BaseModel {
 
-    public $id, $name, $active_years, $country, $genre;
+    public $id, $name, $active_years, $country, $genre, $songs;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -34,7 +34,9 @@ class Performer extends BaseModel {
         $row = parent::find_row_from_table('Performer', $id);
 
         if ($row) {
-            return self::create_new_performer($row);
+            $performer = self::create_new_performer($row);
+            $performer->find_associated_songs();
+            return $performer;
         }
         return null;
     }
@@ -106,6 +108,11 @@ class Performer extends BaseModel {
         );
     }
 
+    private function find_associated_songs() {
+        $song_ids = PerfSong::find_song_ids_with_perf_id($this->id);
+        $this->songs = Song::find_all_where_id_in($song_ids);
+    }
+    
     // validators
     public function validate_name() {
         return $this->validate_string_length('Name', $this->name, 2, 50);

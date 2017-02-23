@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 {% if message %}
 <div class="alert alert-success">
@@ -29,8 +30,10 @@
             <td><a href="{{base_path}}/song/{{chant.song}}">{{chant.song_object.name}}</td>
             <td>Not yet implemented</td>
             {% if user_logged_in %}
-            <td><a class="btn btn-primary" href="{{base_path}}/chant/{{chant.id}}/edit" role="button">Edit</a></td>
-            {{forms.destroy_button("#{base_path}/chant/#{chant.id}/destroy")}}
+            <td>
+                {{forms.edit_button("#{base_path}/chant/#{chant.id}/edit")}}
+                {{forms.destroy_button("#{base_path}/chant/#{chant.id}/destroy")}}
+            </td>
             {% endif %}
         </tr>
         {% endfor %}

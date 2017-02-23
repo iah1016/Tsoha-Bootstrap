@@ -26,11 +26,21 @@
         </tr>
     </thead>
 </table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Associated Songs</th>
+        </tr>
+        {% for song in performer.songs %}
+        <tr><td><a href="{{base_path}}/song/{{song.id}}">{{song.name}}</a></td></tr>
+        {% endfor %}
+    </thead>
+</table>
 
 <a href="{{base_path}}/performer" class="btn btn-default" role="button">Return</a>
 
 {% if user_logged_in %}
-<a href="{{base_path}}/performer/{{chant.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+{{forms.edit_button("#{base_path}/performer/#{performer.id}/edit")}}
 {{forms.destroy_button("#{base_path}/performer/#{performer.id}/destroy")}}
 {% endif %}
 

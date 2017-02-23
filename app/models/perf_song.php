@@ -28,4 +28,19 @@ class PerfSong extends BaseModel {
         return $perf_ids;
     }
 
+    public static function find_song_ids_with_perf_id($perf_id) {
+        $sql_string = 'SELECT song_id FROM PerfSong WHERE perf_id = :perf_id';
+        $query = DB::connection()->prepare($sql_string);
+        $query->execute(array('perf_id' => $perf_id));
+        $rows = $query->fetchAll();
+
+        $song_ids = array();
+
+        foreach ($rows as $row) {
+            $song_ids[] = $row['song_id'];
+        }
+
+        return $song_ids;
+    }
+
 }

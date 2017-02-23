@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 {% if message %}
 <div class="alert alert-success">
@@ -15,7 +16,7 @@
             <th>Club</th>
             <th>Country</th>
             <th>League</th>
-            
+
             {% if user_logged_in %}
             <th></th>
             {% endif %}
@@ -29,7 +30,10 @@
             <td>{{club.country}}</td>
             <td>{{club.league}}</td>
             {% if user_logged_in %}
-            <td><a class="btn btn-primary" href="{{base_path}}/club/{{club.id}}/edit" role="button">Edit</a></td>
+            <td>
+                {{forms.edit_button("#{base_path}/club/#{club.id}/edit")}}
+                {{forms.destroy_button("#{base_path}/club/#{club.id}/destroy")}}
+            </td>
             {% endif %}
         </tr>
         {% endfor %}

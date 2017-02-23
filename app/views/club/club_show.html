@@ -26,7 +26,7 @@
 <a href="{{base_path}}/club" class="btn btn-default" role="button">Return</a>
 
 {% if user_logged_in %}
-<a href="{{base_path}}/club/{{club.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+{{forms.edit_button("#{base_path}/club/#{club.id}/edit")}}
 {{forms.destroy_button("#{base_path}/club/#{club.id}/destroy")}}
 {% endif %}
 

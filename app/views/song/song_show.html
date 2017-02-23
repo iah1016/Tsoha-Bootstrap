@@ -58,7 +58,7 @@
 <a href="{{base_path}}/song" class="btn btn-default" role="button">Return</a>
 
 {% if user_logged_in %}
-<a href="{{base_path}}/song/{{song.id}}/edit" class="btn btn-primary" role="button">Edit</a>
+{{forms.edit_button("#{base_path}/song/#{song.id}/edit")}}
 {{forms.destroy_button("#{base_path}/song/#{song.id}/destroy")}}
 {% endif %}
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% import "macros/forms.html" as forms %}
 
 {% if message %}
 <div class="alert alert-success">
@@ -17,7 +18,7 @@
             <th>Year</th>
             <th>Country</th>
             <th>Genre</th>
-            
+
             {% if user_logged_in %}
             <th></th>
             {% endif %}
@@ -32,9 +33,12 @@
             <td>{{song.year}}</td>
             <td>{{song.country}}</td>
             <td>{{song.genre}}</td>
-            
+
             {% if user_logged_in %}
-            <td><a class="btn btn-primary" href="{{base_path}}/song/{{song.id}}/edit" role="button">Edit</a></td>
+            <td>
+                {{forms.edit_button("#{base_path}/song/#{song.id}/edit")}}
+                {{forms.destroy_button("#{base_path}/song/#{song.id}/destroy")}}
+            </td>
             {% endif %}
         </tr>
         {% endfor %}
