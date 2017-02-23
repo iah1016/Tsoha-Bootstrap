@@ -33,7 +33,8 @@ class PerformerController extends BaseController {
             $performer->save();
 
             Redirect::to('/performer/'
-                    . $performer->id, array('message' => 'Performer added successfully'));
+                    . $performer->id, array(
+                'message' => 'Performer added successfully'));
         } else {
             View::make('performer/performer_new.html', array(
                 'errors' => $errors, 'attributes' => $attributes));

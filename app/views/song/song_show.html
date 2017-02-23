@@ -39,7 +39,9 @@
         <tr>
             <th>Associated Performers</th>
         </tr>
-        <tr><td>TBA</td></tr>
+        {% for performer in song.performers %}
+        <tr><td><a href="{{base_path}}/performer/{{performer.id}}">{{performer.name}}</a></td></tr>
+        {% endfor %}
     </thead>
 </table>
 <table class="table">
@@ -47,7 +49,7 @@
         <tr>
             <th>Associated Chants</th>
         </tr>
-        {% for chant in chants %}
+        {% for chant in song.chants %}
         <tr><td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td></tr>
         {% endfor %}
     </thead>

@@ -19,14 +19,15 @@ class Performer extends BaseModel {
         );
     }
 
+    // read
     public static function all() {
         $rows = parent::all_rows_from_table('Performer');
-        $clubs = array();
+        $performers = array();
 
         foreach ($rows as $row) {
-            $clubs[] = self::create_new_performer($row);
+            $performers[] = self::create_new_performer($row);
         }
-        return $clubs;
+        return $performers;
     }
 
     public static function find($id) {
@@ -38,6 +39,20 @@ class Performer extends BaseModel {
         return null;
     }
 
+    public static function find_all_where_id_in($ids) {
+        $performers = array();
+        if (empty($ids)) {
+            return $performers;
+        }
+        $rows = parent::all_rows_where_id_in('Performer', $ids);
+
+        foreach ($rows as $row) {
+            $performers[] = self::create_new_performer($row);
+        }
+        return $performers;
+    }
+
+    // create, update, destroy
     public function save() {
         $sql_string = 'INSERT INTO Performer ('
                 . 'name, active_years, country, genre) '
@@ -71,7 +86,7 @@ class Performer extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
 
-// private functions
+    // private functions
     private static function create_new_performer($row) {
         return new Performer(array(
             'id' => $row['id'],
@@ -81,7 +96,7 @@ class Performer extends BaseModel {
             'genre' => $row['genre']
         ));
     }
-    
+
     private function create_array() {
         return array(
             'name' => $this->name,
@@ -91,7 +106,7 @@ class Performer extends BaseModel {
         );
     }
 
-// validators
+    // validators
     public function validate_name() {
         return $this->validate_string_length('Name', $this->name, 2, 50);
     }

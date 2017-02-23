@@ -18,6 +18,7 @@ class Club extends BaseModel {
         );
     }
 
+    // read
     public static function all() {
         $rows = parent::all_rows_from_table('Club');
         $clubs = array();
@@ -37,6 +38,7 @@ class Club extends BaseModel {
         return null;
     }
 
+    // create, update, destroy
     public function save() {
         $sql_string = 'INSERT INTO Club ('
                 . 'name, country, league) '
@@ -68,7 +70,7 @@ class Club extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
 
-// private functions
+    // private functions
     private static function create_new_club($row) {
         return new Club(array(
             'id' => $row['id'],
@@ -86,7 +88,7 @@ class Club extends BaseModel {
         );
     }
 
-// validators
+    // validators
     public function validate_name() {
         return $this->validate_string_length('Name', $this->name, 2, 50);
     }

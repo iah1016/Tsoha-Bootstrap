@@ -9,10 +9,7 @@ class SongController extends BaseController {
 
     public static function show($id) {
         $song = Song::find($id);
-        $chants = Chant::find_associated_chants($id);
-        
-        View::make('song/song_show.html', array(
-            'song' => $song, 'chants' => $chants));
+        View::make('song/song_show.html', array('song' => $song));
     }
 
     public static function create() {

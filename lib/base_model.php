@@ -54,18 +54,34 @@ class BaseModel {
     }
 
     protected static function all_rows_from_table($table_name) {
-        $query_string = 'SELECT * FROM ' . $table_name;
-        $query = DB::connection()->prepare($query_string);
+        $sql_string = 'SELECT * FROM ' . $table_name;
+        $query = DB::connection()->prepare($sql_string);
         $query->execute();
         return $query->fetchAll();
     }
 
+    protected static function all_rows_where_id_in($table_name, $ids) {
+        $in_query = implode(',', array_fill(0, count($ids), '?'));
+        $sql_string = 'SELECT * FROM ' . $table_name
+                . ' WHERE id IN(' . $in_query . ')';
+
+        $query = DB::connection()->prepare($sql_string);
+        $query->execute($ids);
+        return $query->fetchAll();
+    }
+
     protected static function find_row_from_table($table_name, $id) {
-        $query_string = 'SELECT * FROM ' . $table_name
+        $sql_string = 'SELECT * FROM ' . $table_name
                 . ' WHERE id = :id LIMIT 1';
-        $query = DB::connection()->prepare($query_string);
+        $query = DB::connection()->prepare($sql_string);
         $query->execute(array('id' => $id));
         return $query->fetch();
+    }
+
+    protected static function find_all_rows_with_id($sql_string, $id) {
+        $query = DB::connection()->prepare($sql_string);
+        $query->execute(array('id' => $id));
+        return $query->fetchAll();
     }
 
 }

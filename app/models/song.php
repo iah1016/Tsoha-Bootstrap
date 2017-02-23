@@ -7,7 +7,8 @@
  */
 class Song extends BaseModel {
 
-    public $id, $name, $written_by, $year, $country, $genre, $ytube_id;
+    public $id, $name, $written_by, $year, $country, $genre, $ytube_id,
+            $chants, $performers;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -18,9 +19,10 @@ class Song extends BaseModel {
             'validate_country',
             'validate_genre',
             'validate_ytube_string'
-            );
+        );
     }
-
+    
+    // read
     public static function all() {
         $rows = parent::all_rows_from_table('Song');
         $songs = array();
@@ -35,11 +37,14 @@ class Song extends BaseModel {
         $row = parent::find_row_from_table('Song', $id);
 
         if ($row) {
-            return self::create_new_song($row);
+            $song = self::create_new_song($row);
+            $song->find_associated_chants_and_performers();
+            return $song;
         }
         return null;
     }
 
+    // create, update, destroy
     public function save() {
         $sql_string = 'INSERT INTO Song ('
                 . 'name, written_by, year, country, genre, ytube_id) '
@@ -75,7 +80,6 @@ class Song extends BaseModel {
     }
 
     // private functions
-
     private static function create_new_song($row) {
         return new Song(array(
             'id' => $row['id'],
@@ -99,6 +103,13 @@ class Song extends BaseModel {
             'genre' => $this->genre,
             'ytube_id' => $this->ytube_id
         );
+    }
+
+    private function find_associated_chants_and_performers() {
+        $this->chants = Chant::find_associated_chants($this->id);
+
+        $perf_ids = PerfSong::find_perf_ids_with_song_id($this->id);
+        $this->performers = Performer::find_all_where_id_in($perf_ids);
     }
 
     private function use_default_youtube_video_if_null() {

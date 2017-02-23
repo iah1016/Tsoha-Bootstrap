@@ -17,6 +17,7 @@ class Chant extends BaseModel {
         );
     }
 
+    // read
     public static function all() {
         $rows = parent::all_rows_from_table('Chant');
         $chants = array();
@@ -37,10 +38,9 @@ class Chant extends BaseModel {
     }
 
     public static function find_associated_chants($id) {
-        $query_string = 'SELECT id, name FROM Chant WHERE song = :id';
-        $query = DB::connection()->prepare($query_string);
-        $query->execute(array('id' => $id));
-        $rows = $query->fetchAll();
+        $sql_string = 'SELECT id, name FROM Chant WHERE song = :id';
+        $rows = parent::find_all_rows_with_id($sql_string, $id);
+        $chants = array();
 
         foreach ($rows as $row) {
             $chants[] = new Chant(array(
@@ -51,6 +51,7 @@ class Chant extends BaseModel {
         return $chants;
     }
 
+    // create, update, destroy
     public function save() {
         $sql_string = 'INSERT INTO Chant (name, lyrics, song) '
                 . 'VALUES (:name, :lyrics, :song) '
@@ -80,7 +81,7 @@ class Chant extends BaseModel {
         $query->execute(array('id' => $this->id));
     }
 
-// private functions
+    // private functions
     private static function create_new_chant($row) {
         return new Chant(array(
             'id' => $row['id'],
@@ -99,7 +100,7 @@ class Chant extends BaseModel {
         );
     }
 
-// validators
+    // validators
     public function validate_name() {
         return $this->validate_string_length('Name', $this->name, 2, 50);
     }
