@@ -1,5 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% if errors %}
+<div class = "alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 <h1>Add a Chant</h1>
+
+<form method="post" action="{{base_path}}/chant">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" value="{{attributes.name}}" type="text">
+    </div>
+
+    <div class="form-group">
+        <label>Lyrics</label>
+        <input name="lyrics" class="form-control" value="{{attributes.lyrics}}" type="text">
+    </div>
+
+    <div class="form-group">
+        <label>Original song</label>
+        <select class="form-control" name="song">
+            {% for song in songs %}
+                {% if song.id == attributes.song %}
+                    <option value="{{song.id}}" selected>{{song.name}}</option>
+                {% else %}
+                    <option value="{{song.id}}">{{song.name}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
+
 {% endblock %}

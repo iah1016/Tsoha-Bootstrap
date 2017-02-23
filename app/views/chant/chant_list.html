@@ -26,7 +26,7 @@
         {% for chant in chants %}
         <tr>
             <td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td>
-            <td><a href="{{base_path}}/song/{{chant.song.id}}">{{chant.song.name}}</td>
+            <td><a href="{{base_path}}/song/{{chant.song}}">{{chant.song_object.name}}</td>
             <td>Not yet implemented</td>
             {% if user_logged_in %}
             <td><a class="btn btn-primary" href="{{base_path}}/chant/{{chant.id}}/edit" role="button">Edit</a></td>

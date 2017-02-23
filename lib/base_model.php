@@ -29,27 +29,43 @@ class BaseModel {
         return $errors;
     }
 
-    public function validate_string_length($attrib_name, $string, $min_length) {
+    public function validate_string_length($attrib_name, $string, $min, $max) {
         $errors = array();
+        $string_length = strlen($string);
 
         if ($string == '' | $string == null) {
             $errors[] = $attrib_name . ' cannot be empty!';
         }
-        if (strlen($string) < $min_length) {
-            $errors[] = 'Min. length of ' . $attrib_name . ' is '
-                    . $min_length . '!';
+        if ($string_length < $min || $string_length > $max) {
+            $errors[] = $attrib_name . ' should be between '
+                    . $min . '-' . $max . ' characters long.';
+        }
+        return $errors;
+    }
+
+    public function validate_numeric($attrib_name, $string) {
+        $errors = array();
+
+        if (!is_numeric($string)) {
+            $errors[] = $attrib_name . ' is not a number!';
         }
 
         return $errors;
     }
-    
-    public function validate_numeric($attrib_name, $string) {
-        $errors = array();
-        
-        if (!is_numeric($string)) {
-            $errors[] = $attrib_name . ' is not a number!';
-        }
-        
-        return $errors;
+
+    protected static function all_rows_from_table($table_name) {
+        $query_string = 'SELECT * FROM ' . $table_name;
+        $query = DB::connection()->prepare($query_string);
+        $query->execute();
+        return $query->fetchAll();
     }
+
+    protected static function find_row_from_table($table_name, $id) {
+        $query_string = 'SELECT * FROM ' . $table_name
+                . ' WHERE id = :id LIMIT 1';
+        $query = DB::connection()->prepare($query_string);
+        $query->execute(array('id' => $id));
+        return $query->fetch();
+    }
+
 }

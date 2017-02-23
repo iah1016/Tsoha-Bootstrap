@@ -17,13 +17,12 @@ class Song extends BaseModel {
             'validate_year',
             'validate_country',
             'validate_genre',
-            'validate_ytube_string');
+            'validate_ytube_string'
+            );
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Song');
-        $query->execute();
-        $rows = $query->fetchAll();
+        $rows = parent::all_rows_from_table('Song');
         $songs = array();
 
         foreach ($rows as $row) {
@@ -33,14 +32,10 @@ class Song extends BaseModel {
     }
 
     public static function find($id) {
-        $sql_string = 'SELECT * FROM Song WHERE id = :id LIMIT 1';
-        $query = DB::connection()->prepare($sql_string);
-        $query->execute(array('id' => $id));
-        $row = $query->fetch();
+        $row = parent::find_row_from_table('Song', $id);
 
         if ($row) {
-            $song = self::create_new_song($row);
-            return $song;
+            return self::create_new_song($row);
         }
         return null;
     }
@@ -115,11 +110,12 @@ class Song extends BaseModel {
     // validators
 
     public function validate_name() {
-        return $this->validate_string_length('Name', $this->name, 2);
+        return $this->validate_string_length('Name', $this->name, 2, 50);
     }
 
     public function validate_written_by() {
-        return $this->validate_string_length('Composer', $this->written_by, 2);
+        return $this->validate_string_length(
+                        'Composer', $this->written_by, 2, 50);
     }
 
     public function validate_year() {
@@ -127,11 +123,11 @@ class Song extends BaseModel {
     }
 
     public function validate_country() {
-        return $this->validate_string_length('Country', $this->country, 2);
+        return $this->validate_string_length('Country', $this->country, 2, 50);
     }
 
     public function validate_genre() {
-        return $this->validate_string_length('Genre', $this->genre, 2);
+        return $this->validate_string_length('Genre', $this->genre, 2, 50);
     }
 
     public function validate_ytube_string() {

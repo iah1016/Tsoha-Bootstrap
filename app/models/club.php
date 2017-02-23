@@ -11,15 +11,15 @@ class Club extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-//        $this->validators = array(
-//            'validate_name'
-//        );
+        $this->validators = array(
+            'validate_name',
+            'validate_country',
+            'validate_league'
+        );
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Club');
-        $query->execute();
-        $rows = $query->fetchAll();
+        $rows = parent::all_rows_from_table('Club');
         $clubs = array();
 
         foreach ($rows as $row) {
@@ -29,17 +29,11 @@ class Club extends BaseModel {
     }
 
     public static function find($id) {
-        $sql_string = 'SELECT * FROM Club WHERE id = :id LIMIT 1';
-        $query = DB::connection()->prepare($sql_string);
-        $query->execute(array('id' => $id));
-        $row = $query->fetch();
+        $row = parent::find_row_from_table('Club', $id);
 
         if ($row) {
-            $club = self::create_new_club($row);
-
-            return $club;
+            return self::create_new_club($row);
         }
-
         return null;
     }
 
@@ -61,14 +55,18 @@ class Club extends BaseModel {
             'league' => $row['league']
         ));
     }
-
-//    private function create_array() {
-//        return array(
-//            'name' => $this->name,
-//            '$country' => $this->$country,
-//            '$league' => $this->$league
-//        );
-//    }
-//    
+ 
 // validators
+    public function validate_name() {
+        return $this->validate_string_length('Name', $this->name, 2, 50);
+    }
+
+    public function validate_country() {
+        return $this->validate_string_length('Country', $this->country, 2, 50);
+    }
+
+    public function validate_league() {
+        return $this->validate_string_length('League', $this->league, 2, 50);
+    }
+
 }

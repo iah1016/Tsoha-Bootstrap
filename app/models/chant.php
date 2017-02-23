@@ -7,19 +7,18 @@
  */
 class Chant extends BaseModel {
 
-    public $id, $name, $lyrics, $song, $clubs;
+    public $id, $name, $lyrics, $song, $song_object, $clubs;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-//        $this->validators = array(
-//            'validate_name'
-//        );
+        $this->validators = array(
+            'validate_name',
+            'validate_lyrics'
+        );
     }
 
     public static function all() {
-        $query = DB::connection()->prepare('SELECT * FROM Chant');
-        $query->execute();
-        $rows = $query->fetchAll();
+        $rows = parent::all_rows_from_table('Chant');
         $chants = array();
 
         foreach ($rows as $row) {
@@ -29,59 +28,55 @@ class Chant extends BaseModel {
     }
 
     public static function find($id) {
-        $sql_string = 'SELECT * FROM Chant WHERE id = :id LIMIT 1';
-        $query = DB::connection()->prepare($sql_string);
-        $query->execute(array('id' => $id));
-        $row = $query->fetch();
+        $row = parent::find_row_from_table('Chant', $id);
 
         if ($row) {
-            $chant = self::create_new_chant($row);
-//            $chant->clubs = Clubs::;
-            
-            return $chant;
+            return self::create_new_chant($row);
         }
-
         return null;
     }
 
-//    public function save() {
-//        $sql_string = 'INSERT INTO Chant (name, lyrics, song) '
-//                . 'VALUES (:name, :lyrics, :song) '
-//                . 'RETURNING id';
-//        $query = DB::connection()->prepare($sql_string);
-//        $query->execute($this->create_array());
-//        $row = $query->fetch();
-//
-//        $this->id = $row['id'];
-//    }
-//
-//    public function update() {
-//        $attributes = $this->create_array();
-//        $attributes['id'] = $this->id;
-//
-//        $sql_string = 'UPDATE Chant SET name = :name jne.';
-//        $query = DB::connection()->prepare($sql_string);
-//
-//        $query->execute($attributes);
-//    }
-//
+    public function save() {
+        $sql_string = 'INSERT INTO Chant (name, lyrics, song) '
+                . 'VALUES (:name, :lyrics, :song) '
+                . 'RETURNING id';
+        $query = DB::connection()->prepare($sql_string);
+        $query->execute($this->create_array());
+        $row = $query->fetch();
+
+        $this->id = $row['id'];
+    }
+
+    public function update() {
+        $attributes = $this->create_array();
+        $attributes['id'] = $this->id;
+
+        $sql_string = 'UPDATE Chant SET name = :name, '
+                . 'lyrics = :lyrics, '
+                . 'song = :song '
+                . 'WHERE id = :id';
+        $query = DB::connection()->prepare($sql_string);
+
+        $query->execute($attributes);
+    }
+
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Chant WHERE id = :id');
         $query->execute(array('id' => $this->id));
     }
 
 // private functions
-
     private static function create_new_chant($row) {
         return new Chant(array(
             'id' => $row['id'],
             'name' => $row['name'],
             'lyrics' => $row['lyrics'],
-            'song' => Song::find($row['song'])
+            'song' => $row['song'],
+            'song_object' => Song::find($row['song'])
         ));
     }
 
-    private function create_array() {
+    private function create_array() {       
         return array(
             'name' => $this->name,
             'lyrics' => $this->lyrics,
@@ -90,4 +85,12 @@ class Chant extends BaseModel {
     }
 
 // validators
+    public function validate_name() {
+        return $this->validate_string_length('Name', $this->name, 2, 50);
+    }
+
+    public function validate_lyrics() {
+        return $this->validate_string_length('Lyrics', $this->lyrics, 2, 500);
+    }
+
 }

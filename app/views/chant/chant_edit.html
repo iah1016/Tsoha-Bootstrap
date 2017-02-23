@@ -1,9 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
+
+{% if errors %}
+<div class = "alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 <h1>Edit the Chant Data</h1>
 
+<form method="post" action="{{base_path}}/chant/{{attributes.id}}/edit">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" value="{{attributes.name}}" type="text">
+    </div>
 
-<div class="form-group">
-    <a href="{{base_path}}/chant" class="btn btn-default" role="button">Return</a>
-</div>
+    <div class="form-group">
+        <label>Lyrics</label>
+        <input name="lyrics" class="form-control" value="{{attributes.lyrics}}" type="text">
+    </div>
+
+    <div class="form-group">
+        <label>Original song</label>
+        <select class="form-control" name="song">
+            {% for song in songs %}
+                {% if song.id == attributes.song %}
+                    <option value="{{song.id}}" selected>{{song.name}}</option>
+                {% else %}
+                    <option value="{{song.id}}">{{song.name}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    
+    <div class="form-group">
+        <a href="{{base_path}}/chant" class="btn btn-default" role="button">Return</a>
+        <button type="submit" class="btn btn-primary">Apply</button>
+    </div>
+    
+</form>
 {% endblock %}
