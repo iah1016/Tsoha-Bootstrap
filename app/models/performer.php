@@ -38,8 +38,32 @@ class Performer extends BaseModel {
         return null;
     }
 
-// save
-// update
+    public function save() {
+        $sql_string = 'INSERT INTO Performer ('
+                . 'name, active_years, country, genre) '
+                . 'VALUES ('
+                . ':name, :active_years, :country, :genre) '
+                . 'RETURNING id';
+        $query = DB::connection()->prepare($sql_string);
+        $query->execute($this->create_array());
+        $row = $query->fetch();
+
+        $this->id = $row['id'];
+    }
+
+    public function update() {
+        $attributes = $this->create_array();
+        $attributes['id'] = $this->id;
+
+        $sql_string = 'UPDATE Performer SET name = :name, '
+                . 'active_years = :active_years, '
+                . 'country = :country, '
+                . 'genre = :genre '
+                . 'WHERE id = :id';
+        $query = DB::connection()->prepare($sql_string);
+
+        $query->execute($attributes);
+    }
 
     public function destroy() {
         $query = DB::connection()->prepare(
@@ -58,6 +82,15 @@ class Performer extends BaseModel {
             'genre' => $row['genre']
         ));
     }
+    
+    private function create_array() {
+        return array(
+            'name' => $this->name,
+            'active_years' => $this->active_years,
+            'country' => $this->country,
+            'genre' => $this->genre
+        );
+    }
 
 // validators
     public function validate_name() {
@@ -70,7 +103,7 @@ class Performer extends BaseModel {
         $right = substr($this->active_years, -4);
 
         if ($this->active_years != null) {
-            if (strlen($this->ytube_id) != 9) {
+            if (strlen($this->active_years) != 9) {
                 $errors[] = 'Active years must be 9 characters long.';
             }
             if (!is_numeric($left) || !is_numeric($right)) {

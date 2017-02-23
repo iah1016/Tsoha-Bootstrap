@@ -93,6 +93,31 @@ $routes->post('/club/:id/destroy', function($id) {
     ClubController::destroy($id);
 });
 
+//------------------------------------------------------------ Performer
+// list, add, show, store(post)
+$routes->get('/performer', function() {
+    PerformerController::index();
+});
+$routes->get('/performer/new', function() {
+    PerformerController::create();
+});
+$routes->get('/performer/:id', function($id) {
+    PerformerController::show($id);
+});
+$routes->post('/performer', function() {
+    PerformerController::store();
+});
+// edit, destroy
+$routes->get('/performer/:id/edit', function($id) {
+    PerformerController::edit($id);
+});
+$routes->post('/performer/:id/edit', function($id) {
+    PerformerController::update($id);
+});
+$routes->post('/performer/:id/destroy', function($id) {
+    PerformerController::destroy($id);
+});
+
 // Sandbox
 $routes->get('/hiekkalaatikko', function() {
     HelloWorldController::sandbox();
