@@ -36,6 +36,21 @@ class Chant extends BaseModel {
         return null;
     }
 
+    public static function find_associated_chants($id) {
+        $query_string = 'SELECT id, name FROM Chant WHERE song = :id';
+        $query = DB::connection()->prepare($query_string);
+        $query->execute(array('id' => $id));
+        $rows = $query->fetchAll();
+
+        foreach ($rows as $row) {
+            $chants[] = new Chant(array(
+                'id' => $row['id'],
+                'name' => $row['name']
+            ));
+        }
+        return $chants;
+    }
+
     public function save() {
         $sql_string = 'INSERT INTO Chant (name, lyrics, song) '
                 . 'VALUES (:name, :lyrics, :song) '
@@ -76,7 +91,7 @@ class Chant extends BaseModel {
         ));
     }
 
-    private function create_array() {       
+    private function create_array() {
         return array(
             'name' => $this->name,
             'lyrics' => $this->lyrics,

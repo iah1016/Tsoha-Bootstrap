@@ -47,7 +47,9 @@
         <tr>
             <th>Associated Chants</th>
         </tr>
-        <tr><td>TBA</td></tr>
+        {% for chant in chants %}
+        <tr><td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td></tr>
+        {% endfor %}
     </thead>
 </table>
 
