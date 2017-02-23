@@ -20,7 +20,22 @@ class ClubController extends BaseController {
 
     public static function store() {
         self::check_logged_in();
-        // not yet implemented
+
+        $params = $_POST;
+        $attributes = self::create_attribute_array($params);
+
+        $club = new Club($attributes);
+        $errors = $club->errors();
+
+        if (count($errors) == 0) {
+            $club->save();
+
+            Redirect::to('/club/'
+                    . $club->id, array('message' => 'Club added successfully'));
+        } else {
+            View::make('club/club_new.html', array(
+                'errors' => $errors, 'attributes' => $attributes));
+        }
     }
 
     public static function edit($id) {
@@ -32,7 +47,23 @@ class ClubController extends BaseController {
 
     public static function update($id) {
         self::check_logged_in();
-        // not yet implemented
+
+        $params = $_POST;
+        $attributes = self::create_attribute_array($params);
+        $attributes['id'] = $id;
+
+        $club = new Club($attributes);
+        $errors = $club->errors();
+
+        if (count($errors) > 0) {
+            View::make('club/club_edit.html', array(
+                'errors' => $errors, 'attributes' => $attributes));
+        } else {
+            $club->update();
+
+            Redirect::to('/club/' . $club->id, array(
+                'message' => 'Club edited successfully'));
+        }
     }
 
     public static function destroy($id) {
@@ -43,6 +74,14 @@ class ClubController extends BaseController {
 
         Redirect::to('/club', array(
             'message' => 'Club removed successfully'));
+    }
+
+    private static function create_attribute_array(array $params) {
+        return array(
+            'name' => $params['name'],
+            'country' => $params['country'],
+            'league' => $params['league']
+        );
     }
 
 }

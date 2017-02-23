@@ -37,8 +37,31 @@ class Club extends BaseModel {
         return null;
     }
 
-// save
-// update
+    public function save() {
+        $sql_string = 'INSERT INTO Club ('
+                . 'name, country, league) '
+                . 'VALUES ('
+                . ':name, :country, :league) '
+                . 'RETURNING id';
+        $query = DB::connection()->prepare($sql_string);
+        $query->execute($this->create_array());
+        $row = $query->fetch();
+
+        $this->id = $row['id'];
+    }
+
+    public function update() {
+        $attributes = $this->create_array();
+        $attributes['id'] = $this->id;
+
+        $sql_string = 'UPDATE Club SET name = :name, '
+                . 'country = :country, '
+                . 'league = :league '
+                . 'WHERE id = :id';
+        $query = DB::connection()->prepare($sql_string);
+
+        $query->execute($attributes);
+    }
 
     public function destroy() {
         $query = DB::connection()->prepare('DELETE FROM Club WHERE id = :id');
@@ -46,7 +69,6 @@ class Club extends BaseModel {
     }
 
 // private functions
-
     private static function create_new_club($row) {
         return new Club(array(
             'id' => $row['id'],
@@ -55,7 +77,15 @@ class Club extends BaseModel {
             'league' => $row['league']
         ));
     }
- 
+
+    private function create_array() {
+        return array(
+            'name' => $this->name,
+            'country' => $this->country,
+            'league' => $this->league
+        );
+    }
+
 // validators
     public function validate_name() {
         return $this->validate_string_length('Name', $this->name, 2, 50);

@@ -72,9 +72,8 @@ class Performer extends BaseModel {
     }
 
 // private functions
-
     private static function create_new_performer($row) {
-        return new Club(array(
+        return new Performer(array(
             'id' => $row['id'],
             'name' => $row['name'],
             'active_years' => $row['active_years'],

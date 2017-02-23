@@ -1,9 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
+
+{% if errors %}
+<div class = "alert alert-danger">
+    <ul>
+        {% for error in errors %}
+        <li>{{error}}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 <h1>Edit the Club Data</h1>
 
+<form method="post" action="{{base_path}}/club/{{attributes.id}}/edit">
+    <div class="form-group">
+        <label>Name</label>
+        <input name="name" class="form-control" value="{{attributes.name}}" type="text">
+    </div>
 
-<div class="form-group">
-    <a href="{{base_path}}/club" class="btn btn-default" role="button">Return</a>
-</div>
+    <div class="form-group">
+        <label>Country of Origin</label>
+        <input name="country" class="form-control" value="{{attributes.country}}" type="text">
+    </div>
+
+    <div class="form-group">
+        <label>League</label>
+        <input name="league" class="form-control" value="{{attributes.league}}" type="text">
+    </div>
+
+    <div class="form-group">
+        <a href="{{base_path}}/club" class="btn btn-default" role="button">Return</a>
+        <button type="submit" class="btn btn-primary">Apply</button>
+    </div>
+
+</form>
+
 {% endblock %}
