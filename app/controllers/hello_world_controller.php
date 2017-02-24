@@ -8,7 +8,8 @@ class HelloWorldController extends BaseController {
     public static function index() {
         // make-metodi renderöi app/views-kansiossa sijaitsevia tiedostoja
         // View::make('home.html');
-        View::make('suunnitelmat/first.html');
+        View::make('suunnitelmat/first.html', array(
+            'transparent' => 'say no to white background!'));
     }
 
     // (tilapäinen) sisäänkirjautuminen

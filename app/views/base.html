@@ -58,11 +58,15 @@
             </div>
         </nav>
 
+        {% if transparent %}
         <div id="main-container">
+        {% else %}
+        <div id="main-container" class="content-background">
+        {% endif %}
             <!-- Dynaaminen sisältö tulee tähän -->
             {% block content %}{% endblock %}
         </div>
-
+        
         {% block body %}
         <!-- jQuery -->
         <script src="{{base_path}}/vendor/jquery.min.js"></script>
@@ -73,7 +77,7 @@
         <!-- Oma skriptitiedostomme -->
         <script src="{{base_path}}/assets/js/site.js"></script>
         {% endblock %}
-        
+
         <!-- Taustakuvan lisenssitiedot -->
         <div class="footer navbar-fixed-bottom">
             <p class="text-right">

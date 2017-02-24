@@ -1,18 +1,22 @@
 #main-container{
-  max-width: 1200px;
-  padding: 10px 25px;
-  margin: 0px auto;
+    max-width: 1200px;
+    padding: 10px 25px;
+    margin: 0px auto;
 }
 
 .navbar .container-fluid{
-  max-width: 1200px;
-  margin: 0px auto;
+    max-width: 1200px;
+    margin: 0px auto;
 }
 
-html { 
-  background: url(La_Bombonera.jpg) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+.content-background{
+    background-color: #ffffff;
+}
+
+body { 
+    background: url(La_Bombonera.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
