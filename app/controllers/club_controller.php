@@ -23,8 +23,12 @@ class ClubController extends BaseController {
 
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
-
         $club = new Club($attributes);
+        
+        self::try_saving($club, $attributes);
+    }
+
+    private static function try_saving($club, $attributes) {
         $errors = $club->errors();
 
         if (count($errors) == 0) {
@@ -51,8 +55,12 @@ class ClubController extends BaseController {
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
         $attributes['id'] = $id;
-
         $club = new Club($attributes);
+        
+        self::try_updating($club, $attributes);
+    }
+    
+    private static function try_updating($club, $attributes) {
         $errors = $club->errors();
 
         if (count($errors) > 0) {

@@ -14,7 +14,7 @@ class ChantController extends BaseController {
 
     public static function create() {
         self::check_logged_in();
-        
+
         $songs = Song::all();
         View::make('chant/chant_new.html', array('songs' => $songs));
     }
@@ -24,8 +24,12 @@ class ChantController extends BaseController {
 
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
-
         $chant = new Chant($attributes);
+
+        self::try_saving($chant, $attributes);
+    }
+
+    private static function try_saving($chant, $attributes) {
         $errors = $chant->errors();
 
         if (count($errors) == 0) {
@@ -57,8 +61,12 @@ class ChantController extends BaseController {
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
         $attributes['id'] = $id;
-
         $chant = new Chant($attributes);
+
+        self::try_updating($chant, $attributes);
+    }
+
+    private static function try_updating($chant, $attributes) {
         $errors = $chant->errors();
 
         if (count($errors) > 0) {

@@ -14,17 +14,21 @@ class SongController extends BaseController {
 
     public static function create() {
         self::check_logged_in();
-        
+
         View::make('song/song_new.html');
     }
 
     public static function store() {
         self::check_logged_in();
-        
-        $params = $_POST;           
-        $attributes = self::create_attribute_array($params);
 
+        $params = $_POST;
+        $attributes = self::create_attribute_array($params);
         $song = new Song($attributes);
+
+        self::try_saving($song, $attributes);
+    }
+
+    private static function try_saving($song, $attributes) {
         $errors = $song->errors();
 
         if (count($errors) == 0) {
@@ -40,19 +44,23 @@ class SongController extends BaseController {
 
     public static function edit($id) {
         self::check_logged_in();
-        
+
         $song = Song::find($id);
         View::make('song/song_edit.html', array('attributes' => $song));
     }
 
     public static function update($id) {
         self::check_logged_in();
-        
+
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
         $attributes['id'] = $id;
-
         $song = new Song($attributes);
+
+        self::try_updating($song, $attributes);
+    }
+
+    private static function try_updating($song, $attributes) {
         $errors = $song->errors();
 
         if (count($errors) > 0) {
@@ -68,7 +76,7 @@ class SongController extends BaseController {
 
     public static function destroy($id) {
         self::check_logged_in();
-        
+
         $song = new Song(array('id' => $id));
         $song->destroy();
 
@@ -86,4 +94,5 @@ class SongController extends BaseController {
             'ytube_id' => $params['ytube_id']
         );
     }
+
 }

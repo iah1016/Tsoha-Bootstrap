@@ -25,8 +25,12 @@ class PerformerController extends BaseController {
 
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
-
         $performer = new Performer($attributes);
+
+        self::try_saving($performer, $attributes);
+    }
+
+    private static function try_saving($performer, $attributes) {
         $errors = $performer->errors();
 
         if (count($errors) == 0) {
@@ -55,8 +59,12 @@ class PerformerController extends BaseController {
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
         $attributes['id'] = $id;
-
         $performer = new Performer($attributes);
+
+        self::try_updating($performer, $attributes);
+    }
+
+    private static function try_updating($performer, $attributes) {
         $errors = $performer->errors();
 
         if (count($errors) > 0) {
