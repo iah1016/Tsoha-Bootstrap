@@ -4,6 +4,10 @@
     margin: 0px auto;
 }
 
+.navbar-default{
+    background-color: #3d0066;
+}
+
 .navbar .container-fluid{
     max-width: 1200px;
     margin: 0px auto;
@@ -11,6 +15,10 @@
 
 .content-background{
     background-color: #ffffff;
+}
+
+.text-white{
+    color: #ffffff;
 }
 
 body { 

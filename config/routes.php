@@ -1,8 +1,8 @@
 <?php
 
-// (tilapäinen) etusivu
+// home
 $routes->get('/', function() {
-    HelloWorldController::index();
+    BaseController::index();
 });
 
 //------------------------------------------------------------ User
