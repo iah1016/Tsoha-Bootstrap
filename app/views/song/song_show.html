@@ -39,9 +39,13 @@
         <tr>
             <th>Associated Performers</th>
         </tr>
+        {% if song.performers is empty %}
+        <tr><td>none</td></tr>
+        {% else %}        
         {% for performer in song.performers %}
         <tr><td><a href="{{base_path}}/performer/{{performer.id}}">{{performer.name}}</a></td></tr>
         {% endfor %}
+        {% endif %}
     </thead>
 </table>
 <table class="table">
@@ -49,9 +53,13 @@
         <tr>
             <th>Associated Chants</th>
         </tr>
+        {% if song.chants is empty %}
+        <tr><td>none</td></tr>
+        {% else %}        
         {% for chant in song.chants %}
         <tr><td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td></tr>
         {% endfor %}
+        {% endif %}
     </thead>
 </table>
 

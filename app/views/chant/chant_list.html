@@ -28,7 +28,18 @@
         <tr>
             <td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td>
             <td><a href="{{base_path}}/song/{{chant.song}}">{{chant.song_object.name}}</td>
-            <td>Not yet implemented</td>
+            
+            <td>
+            {% if chant.clubs is empty %}
+                none</td>
+            {% else %}
+                {% for club in chant.clubs %}
+                    <a href="{{base_path}}/club/{{club.id}}">{{club.name}}
+                    <br>
+                {% endfor %}
+                </td>
+            {% endif %}
+
             {% if user_logged_in %}
             <td>
                 {{forms.edit_button("#{base_path}/chant/#{chant.id}/edit")}}

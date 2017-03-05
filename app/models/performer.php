@@ -21,7 +21,7 @@ class Performer extends BaseModel {
 
     // read
     public static function all() {
-        $rows = parent::all_rows_from_table('Performer');
+        $rows = parent::find_all_rows_from_table('Performer');
         $performers = array();
 
         foreach ($rows as $row) {
@@ -41,12 +41,13 @@ class Performer extends BaseModel {
         return null;
     }
 
-    public static function find_all_where_id_in($ids) {
+    public static function find_all_performers_with_song_id($song_id) {
         $performers = array();
-        if (empty($ids)) {
-            return $performers;
-        }
-        $rows = parent::all_rows_where_id_in('Performer', $ids);
+        $sql_string = 'SELECT Performer.* '
+                . 'FROM PerfSong '
+                . 'INNER JOIN Performer ON Performer.id = PerfSong.perf_id '
+                . 'WHERE PerfSong.song_id = :id;';
+        $rows = parent::find_all_rows_with_id($sql_string, $song_id);
 
         foreach ($rows as $row) {
             $performers[] = self::create_new_performer($row);
@@ -57,10 +58,10 @@ class Performer extends BaseModel {
     // create, update, destroy
     public function save() {
         $sql_string = 'INSERT INTO Performer ('
-                . 'name, active_years, country, genre) '
-                . 'VALUES ('
-                . ':name, :active_years, :country, :genre) '
-                . 'RETURNING id';
+                . 'name, active_years, country, genre'
+                . ') VALUES ('
+                . ':name, :active_years, :country, :genre'
+                . ') RETURNING id';
         $query = DB::connection()->prepare($sql_string);
         $query->execute($this->create_array());
         $row = $query->fetch();
@@ -109,10 +110,9 @@ class Performer extends BaseModel {
     }
 
     private function find_associated_songs() {
-        $song_ids = PerfSong::find_song_ids_with_perf_id($this->id);
-        $this->songs = Song::find_all_where_id_in($song_ids);
+        $this->songs = Song::find_all_songs_with_perf_id($this->id);
     }
-    
+
     // validators
     public function validate_name() {
         return $this->validate_string_length('Name', $this->name, 2, 50);

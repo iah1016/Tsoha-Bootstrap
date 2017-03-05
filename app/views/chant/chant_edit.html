@@ -28,19 +28,28 @@
         <label>Original song</label>
         <select class="form-control" name="song">
             {% for song in songs %}
-                {% if song.id == attributes.song %}
-                    <option value="{{song.id}}" selected>{{song.name}}</option>
-                {% else %}
-                    <option value="{{song.id}}">{{song.name}}</option>
-                {% endif %}
+            {% if song.id == attributes.song_object.id %}
+            <option value="{{song.id}}" selected>{{song.name}}</option>
+            {% else %}
+            <option value="{{song.id}}">{{song.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>
-    
+
+    <div class="form-group">
+        <label>Associated Clubs</label>
+        <select class="form-control" name="clubs[]" multiple="" required>
+            {% for club in clubs %}
+            <option value="{{club.id}}">{{club.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
     <div class="form-group">
         <a href="{{base_path}}/chant" class="btn btn-default" role="button">Return</a>
         <button type="submit" class="btn btn-primary">Apply</button>
     </div>
-    
+
 </form>
 {% endblock %}

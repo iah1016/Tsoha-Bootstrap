@@ -24,7 +24,7 @@ class Song extends BaseModel {
 
     // read
     public static function all() {
-        $rows = parent::all_rows_from_table('Song');
+        $rows = parent::find_all_rows_from_table('Song');
         $songs = array();
 
         foreach ($rows as $row) {
@@ -44,13 +44,14 @@ class Song extends BaseModel {
         return null;
     }
 
-    public static function find_all_where_id_in($ids) {
+    public static function find_all_songs_with_perf_id($perf_id) {
         $songs = array();
-        if (empty($ids)) {
-            return $songs;
-        }
-        $rows = parent::all_rows_where_id_in('Song', $ids);
-
+        $sql_string = 'SELECT Song.* '
+                . 'FROM PerfSong '
+                . 'INNER JOIN Song ON Song.id = PerfSong.song_id '
+                . 'WHERE PerfSong.perf_id = :id;';
+        $rows = parent::find_all_rows_with_id($sql_string, $perf_id);
+        
         foreach ($rows as $row) {
             $songs[] = self::create_new_song($row);
         }
@@ -60,10 +61,10 @@ class Song extends BaseModel {
     // create, update, destroy
     public function save() {
         $sql_string = 'INSERT INTO Song ('
-                . 'name, written_by, year, country, genre, ytube_id) '
-                . 'VALUES ('
-                . ':name, :written_by, :year, :country, :genre, :ytube_id) '
-                . 'RETURNING id';
+                . 'name, written_by, year, country, genre, ytube_id'
+                . ') VALUES ('
+                . ':name, :written_by, :year, :country, :genre, :ytube_id'
+                . ') RETURNING id';
         $query = DB::connection()->prepare($sql_string);
         $query->execute($this->create_array());
         $row = $query->fetch();
@@ -119,10 +120,8 @@ class Song extends BaseModel {
     }
 
     private function find_associated_chants_and_performers() {
-        $this->chants = Chant::find_associated_chants($this->id);
-
-        $perf_ids = PerfSong::find_perf_ids_with_song_id($this->id);
-        $this->performers = Performer::find_all_where_id_in($perf_ids);
+        $this->chants = Chant::find_associated_chants_with_song_id($this->id);
+        $this->performers = Performer::find_all_performers_with_song_id($this->id);
     }
 
     private function use_default_youtube_video_if_null() {

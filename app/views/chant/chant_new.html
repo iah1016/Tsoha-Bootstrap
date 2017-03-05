@@ -25,10 +25,10 @@
     </div>
 
     <div class="form-group">
-        <label>Original song</label>
+        <label>Original Song</label>
         <select class="form-control" name="song">
             {% for song in songs %}
-                {% if song.id == attributes.song %}
+                {% if song.id == attributes.song_object.id %}
                     <option value="{{song.id}}" selected>{{song.name}}</option>
                 {% else %}
                     <option value="{{song.id}}">{{song.name}}</option>
@@ -37,6 +37,15 @@
         </select>
     </div>
 
+    <div class="form-group">
+        <label>Associated Clubs</label>
+        <select class="form-control" name="clubs[]" multiple="" required>
+            {% for club in clubs %}
+            <option value="{{club.id}}">{{club.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Add</button>
     </div>

@@ -20,12 +20,23 @@
             <th>Original song</th>
             <td><a href="{{base_path}}/song/{{chant.song_object.id}}">{{chant.song_object.name}}</a></td>
         </tr>
-        <tr>
-            <th>Associated club(s)</th>
-            <td>Not yet implemented</td>
-        </tr>
     </thead>
 </table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Associated Club(s)</th>
+        </tr>
+        {% if chant.clubs is empty %}
+            <tr><td>none</td></tr>
+        {% else %}
+            {% for club in chant.clubs %}
+            <tr><td><a href="{{base_path}}/club/{{club.id}}">{{club.name}}</a></td></tr>
+            {% endfor %}
+        {% endif %}
+    </thead>
+</table>
+
 
 <a href="{{base_path}}/chant" class="btn btn-default" role="button">Return</a>
 

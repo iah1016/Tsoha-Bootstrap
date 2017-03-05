@@ -16,34 +16,22 @@ class ChantController extends BaseController {
         self::check_logged_in();
 
         $songs = Song::all();
-        View::make('chant/chant_new.html', array('songs' => $songs));
+        $clubs = Club::all();
+        View::make('chant/chant_new.html', array('songs' => $songs,
+            'clubs' => $clubs));
     }
 
     public static function store() {
         self::check_logged_in();
 
         $params = $_POST;
-        $attributes = self::create_attribute_array($params);
+        //
+        $clubs = $params['clubs'];
+        $attributes = self::create_attribute_array($params, $clubs);
+        //
         $chant = new Chant($attributes);
 
-        self::try_saving($chant, $attributes);
-    }
-
-    private static function try_saving($chant, $attributes) {
-        $errors = $chant->errors();
-
-        if (count($errors) == 0) {
-            $chant->save();
-
-            Redirect::to('/chant/'
-                    . $chant->id, array(
-                'message' => 'Chant added successfully'));
-        } else {
-            $songs = Song::all();
-            View::make('chant/chant_new.html', array(
-                'errors' => $errors, 'attributes' => $attributes,
-                'songs' => $songs));
-        }
+        self::try_adding_or_updating($chant, $attributes, 'new', 'added');
     }
 
     public static function edit($id) {
@@ -51,34 +39,43 @@ class ChantController extends BaseController {
 
         $chant = Chant::find($id);
         $songs = Song::all();
+        $clubs = Club::all();
         View::make('chant/chant_edit.html', array('attributes' => $chant,
-            'songs' => $songs));
+            'songs' => $songs, 'clubs' => $clubs));
     }
 
     public static function update($id) {
         self::check_logged_in();
 
         $params = $_POST;
-        $attributes = self::create_attribute_array($params);
+        //
+        $clubs = $params['clubs'];
+        $attributes = self::create_attribute_array($params, $clubs);
+        //
         $attributes['id'] = $id;
         $chant = new Chant($attributes);
 
-        self::try_updating($chant, $attributes);
+        self::try_adding_or_updating($chant, $attributes, 'edit', 'edited');
     }
 
-    private static function try_updating($chant, $attributes) {
+    private static function try_adding_or_updating
+    ($chant, $attributes, $redirect_on_fail, $action_string) {
         $errors = $chant->errors();
 
-        if (count($errors) > 0) {
-            $songs = Song::all();
-            View::make('chant/chant_edit.html', array(
-                'errors' => $errors, 'attributes' => $attributes,
-                'songs' => $songs));
-        } else {
-            $chant->update();
-
+        if (count($errors) == 0) {
+            if ($action_string == 'added') {
+                $chant->save();
+            } elseif ($action_string == 'edited') {
+                $chant->update();
+            }
             Redirect::to('/chant/' . $chant->id, array(
-                'message' => 'Chant edited successfully'));
+                'message' => 'Chant ' . $action_string . ' successfully'));
+        } else {
+            $songs = Song::all();
+            $clubs = Club::all();
+            View::make('chant/chant_' . $redirect_on_fail . '.html', array(
+                'errors' => $errors, 'attributes' => $attributes,
+                'songs' => $songs, 'clubs' => $clubs));
         }
     }
 
@@ -92,12 +89,20 @@ class ChantController extends BaseController {
             'message' => 'Chant removed successfully'));
     }
 
-    private static function create_attribute_array(array $params) {
-        return array(
+    //
+    private static function create_attribute_array
+    (array $params, array $clubs) {
+        $attributes = array(
             'name' => $params['name'],
             'lyrics' => $params['lyrics'],
             'song' => $params['song'],
+            'clubs_ids' => array()
         );
+        foreach ($clubs as $club) {
+            $attributes['clubs_ids'][] = $club;
+        }
+
+        return $attributes;
     }
 
 }

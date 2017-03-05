@@ -27,22 +27,7 @@ class PerformerController extends BaseController {
         $attributes = self::create_attribute_array($params);
         $performer = new Performer($attributes);
 
-        self::try_saving($performer, $attributes);
-    }
-
-    private static function try_saving($performer, $attributes) {
-        $errors = $performer->errors();
-
-        if (count($errors) == 0) {
-            $performer->save();
-
-            Redirect::to('/performer/'
-                    . $performer->id, array(
-                'message' => 'Performer added successfully'));
-        } else {
-            View::make('performer/performer_new.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
-        }
+        self::try_adding_or_updating($performer, $attributes, 'new', 'added');
     }
 
     public static function edit($id) {
@@ -61,20 +46,25 @@ class PerformerController extends BaseController {
         $attributes['id'] = $id;
         $performer = new Performer($attributes);
 
-        self::try_updating($performer, $attributes);
+        self::try_adding_or_updating($performer, $attributes, 'edit', 'edited');
     }
 
-    private static function try_updating($performer, $attributes) {
+    private static function try_adding_or_updating
+    ($performer, $attributes, $redirect_on_fail, $action_string) {
         $errors = $performer->errors();
 
-        if (count($errors) > 0) {
-            View::make('performer/performer_edit.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
-        } else {
-            $performer->update();
-
+        if (count($errors) == 0) {
+            if ($action_string == 'added') {
+                $performer->save();
+            } elseif ($action_string == 'edited') {
+                $performer->update();
+            }
             Redirect::to('/performer/' . $performer->id, array(
-                'message' => 'Performer edited successfully'));
+                'message' => 'Performer ' . $action_string . ' successfully'));
+        } else {
+            View::make(
+                    'performer/performer_' . $redirect_on_fail . '.html', array(
+                'errors' => $errors, 'attributes' => $attributes));
         }
     }
 

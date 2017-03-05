@@ -22,6 +22,21 @@
         </tr>
     </thead>
 </table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Associated Chant(s)</th>
+        </tr>
+        {% if club.chants is empty %}
+            <tr><td>none</td></tr>
+        {% else %}
+            {% for chant in club.chants %}
+            <tr><td><a href="{{base_path}}/chant/{{chant.id}}">{{chant.name}}</a></td></tr>
+            {% endfor %}
+        {% endif %}
+    </thead>
+</table>
+
 
 <a href="{{base_path}}/club" class="btn btn-default" role="button">Return</a>
 

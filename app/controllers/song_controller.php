@@ -25,21 +25,7 @@ class SongController extends BaseController {
         $attributes = self::create_attribute_array($params);
         $song = new Song($attributes);
 
-        self::try_saving($song, $attributes);
-    }
-
-    private static function try_saving($song, $attributes) {
-        $errors = $song->errors();
-
-        if (count($errors) == 0) {
-            $song->save();
-
-            Redirect::to('/song/'
-                    . $song->id, array('message' => 'Song added successfully'));
-        } else {
-            View::make('song/song_new.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
-        }
+        self::try_adding_or_updating($song, $attributes, 'new', 'added');
     }
 
     public static function edit($id) {
@@ -57,20 +43,24 @@ class SongController extends BaseController {
         $attributes['id'] = $id;
         $song = new Song($attributes);
 
-        self::try_updating($song, $attributes);
+        self::try_adding_or_updating($song, $attributes, 'edit', 'edited');
     }
 
-    private static function try_updating($song, $attributes) {
+    private static function try_adding_or_updating
+    ($song, $attributes, $redirect_on_fail, $action_string) {
         $errors = $song->errors();
 
-        if (count($errors) > 0) {
-            View::make('song/song_edit.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
-        } else {
-            $song->update();
-
+        if (count($errors) == 0) {
+            if ($action_string == 'added') {
+                $song->save();
+            } elseif ($action_string == 'edited') {
+                $song->update();
+            }
             Redirect::to('/song/' . $song->id, array(
-                'message' => 'Song edited successfully'));
+                'message' => 'Song ' . $action_string . ' successfully'));
+        } else {
+            View::make('song/song_' . $redirect_on_fail . '.html', array(
+                'errors' => $errors, 'attributes' => $attributes));
         }
     }
 

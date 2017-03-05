@@ -19,7 +19,7 @@ class PerfSong extends BaseModel {
         $query->execute(array('song_id' => $song_id));
         $rows = $query->fetchAll();
 
-        return self::make_ids_array($rows, 'perf_id');
+        return self::make_array_of_ids($rows, 'perf_id');
     }
 
     public static function find_song_ids_with_perf_id($perf_id) {
@@ -28,15 +28,14 @@ class PerfSong extends BaseModel {
         $query->execute(array('perf_id' => $perf_id));
         $rows = $query->fetchAll();
 
-        return self::make_ids_array($rows, 'song_id');
+        return self::make_array_of_ids($rows, 'song_id');
     }
 
-    private static function make_ids_array($rows, $attribute) {
+    protected static function make_array_of_ids($rows, $attribute) {
         $ids = array();
         foreach ($rows as $row) {
             $ids[] = $row[$attribute];
         }
         return $ids;
     }
-
 }

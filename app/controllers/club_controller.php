@@ -24,22 +24,8 @@ class ClubController extends BaseController {
         $params = $_POST;
         $attributes = self::create_attribute_array($params);
         $club = new Club($attributes);
-        
-        self::try_saving($club, $attributes);
-    }
 
-    private static function try_saving($club, $attributes) {
-        $errors = $club->errors();
-
-        if (count($errors) == 0) {
-            $club->save();
-
-            Redirect::to('/club/'
-                    . $club->id, array('message' => 'Club added successfully'));
-        } else {
-            View::make('club/club_new.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
-        }
+        self::try_adding_or_updating($club, $attributes, 'new', 'added');
     }
 
     public static function edit($id) {
@@ -56,21 +42,25 @@ class ClubController extends BaseController {
         $attributes = self::create_attribute_array($params);
         $attributes['id'] = $id;
         $club = new Club($attributes);
-        
-        self::try_updating($club, $attributes);
+
+        self::try_adding_or_updating($club, $attributes, 'edit', 'edited');
     }
-    
-    private static function try_updating($club, $attributes) {
+
+    private static function try_adding_or_updating
+    ($club, $attributes, $redirect_on_fail, $action_string) {
         $errors = $club->errors();
 
-        if (count($errors) > 0) {
-            View::make('club/club_edit.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
-        } else {
-            $club->update();
-
+        if (count($errors) == 0) {
+            if ($action_string == 'added') {
+                $club->save();
+            } elseif ($action_string == 'edited') {
+                $club->update();
+            }
             Redirect::to('/club/' . $club->id, array(
-                'message' => 'Club edited successfully'));
+                'message' => 'Club ' . $action_string . ' successfully'));
+        } else {
+            View::make('club/club_' . $redirect_on_fail . '.html', array(
+                'errors' => $errors, 'attributes' => $attributes));
         }
     }
 

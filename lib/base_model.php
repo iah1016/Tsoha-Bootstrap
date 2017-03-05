@@ -53,20 +53,10 @@ class BaseModel {
         return $errors;
     }
 
-    protected static function all_rows_from_table($table_name) {
+    protected static function find_all_rows_from_table($table_name) {
         $sql_string = 'SELECT * FROM ' . $table_name;
         $query = DB::connection()->prepare($sql_string);
         $query->execute();
-        return $query->fetchAll();
-    }
-
-    protected static function all_rows_where_id_in($table_name, $ids) {
-        $in_query = implode(',', array_fill(0, count($ids), '?'));
-        $sql_string = 'SELECT * FROM ' . $table_name
-                . ' WHERE id IN(' . $in_query . ')';
-
-        $query = DB::connection()->prepare($sql_string);
-        $query->execute($ids);
         return $query->fetchAll();
     }
 
