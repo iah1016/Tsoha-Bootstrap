@@ -26,7 +26,11 @@ class ChantController extends BaseController {
 
         $params = $_POST;
         //
-        $clubs = $params['clubs'];
+        if (isset($params['clubs'])) {
+            $clubs = $params['clubs'];
+        } else {
+            $clubs = array();
+        }
         $attributes = self::create_attribute_array($params, $clubs);
         //
         $chant = new Chant($attributes);
@@ -49,7 +53,11 @@ class ChantController extends BaseController {
 
         $params = $_POST;
         //
-        $clubs = $params['clubs'];
+        if (isset($params['clubs'])) {
+            $clubs = $params['clubs'];
+        } else {
+            $clubs = array();
+        }
         $attributes = self::create_attribute_array($params, $clubs);
         //
         $attributes['id'] = $id;

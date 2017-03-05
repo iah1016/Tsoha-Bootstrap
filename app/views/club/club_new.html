@@ -31,7 +31,7 @@
     
     <div class="form-group">
         <label>Associated Chants</label>
-        <select class="form-control" name="chants[]" multiple="" required="">
+        <select class="form-control" name="chants[]" multiple="">
             {% for chant in chants %}
             <option value="{{chant.id}}">{{chant.name}}</option>
             {% endfor %}

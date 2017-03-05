@@ -24,7 +24,12 @@ class ClubController extends BaseController {
 
         $params = $_POST;
 
-        $chants = $params['chants'];
+        if (isset($params['chants'])) {
+            $chants = $params['chants'];
+        } else {
+            $chants = array();
+        }
+        
         $attributes = self::create_attribute_array($params, $chants);
 
         $club = new Club($attributes);
@@ -45,7 +50,14 @@ class ClubController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-        $attributes = self::create_attribute_array($params);
+        
+        if (isset($params['chants'])) {
+            $chants = $params['chants'];
+        } else {
+            $chants = array();
+        }
+        
+        $attributes = self::create_attribute_array($params, $chants);
         $attributes['id'] = $id;
         $club = new Club($attributes);
 
@@ -84,20 +96,12 @@ class ClubController extends BaseController {
 
     private static function create_attribute_array
     (array $params, array $chants) {
-        return array(
+        $attributes = array(
             'name' => $params['name'],
             'country' => $params['country'],
             'league' => $params['league'],
+            'chants_ids' => array()
         );
-    }
-
-    private static function add_chants_to_attributes
-    (array $attributes, array $chants) {
-        $attributes['chants_ids'] = array();
-        if (is_null($chants)) {
-            return $attributes;
-        }
-
         foreach ($chants as $chant) {
             $attributes['chants_ids'][] = $chant;
         }

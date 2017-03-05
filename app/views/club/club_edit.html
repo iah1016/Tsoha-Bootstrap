@@ -30,6 +30,15 @@
     </div>
 
     <div class="form-group">
+        <label>Associated Chants</label>
+        <select class="form-control" name="chants[]" multiple="">
+            {% for chant in chants %}
+            <option value="{{chant.id}}">{{chant.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
         <a href="{{base_path}}/club" class="btn btn-default" role="button">Return</a>
         <button type="submit" class="btn btn-primary">Apply</button>
     </div>

@@ -79,7 +79,7 @@ class Chant extends BaseModel {
 
         $this->add_to_clubchant();
     }
-    
+
     public function update() {
         $attributes = $this->create_array();
         $attributes['id'] = $this->id;
@@ -90,7 +90,7 @@ class Chant extends BaseModel {
                 . 'WHERE id = :id';
         $query = DB::connection()->prepare($sql_string);
         $query->execute($attributes);
-        
+
         $this->update_clubchant();
     }
 
@@ -118,7 +118,7 @@ class Chant extends BaseModel {
             'song' => $this->song
         );
     }
-    
+
     private function add_to_clubchant() {
         if (!empty($this->clubs_ids) && !is_null($this->clubs_ids)) {
             $chant_and_club_ids = array('chant_id' => $this->id);
@@ -135,13 +135,11 @@ class Chant extends BaseModel {
     }
 
     private function update_clubchant() {
-        if (!empty($this->clubs_ids) && !is_null($this->clubs_ids)) {
-            $query = DB::connection()->prepare(
-                    'DELETE FROM ClubChant WHERE chant_id = :id');
-            $query->execute(array('id' => $this->id));
-            
-            $this->add_to_clubchant();
-        }
+        $query = DB::connection()->prepare(
+                'DELETE FROM ClubChant WHERE chant_id = :id');
+        $query->execute(array('id' => $this->id));
+
+        $this->add_to_clubchant();
     }
 
     // validators

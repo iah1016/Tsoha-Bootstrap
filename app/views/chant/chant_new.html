@@ -39,7 +39,7 @@
 
     <div class="form-group">
         <label>Associated Clubs</label>
-        <select class="form-control" name="clubs[]" multiple="" required>
+        <select class="form-control" name="clubs[]" multiple="">
             {% for club in clubs %}
             <option value="{{club.id}}">{{club.name}}</option>
             {% endfor %}
