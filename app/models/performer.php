@@ -7,7 +7,7 @@
  */
 class Performer extends BaseModel {
 
-    public $id, $name, $active_years, $country, $genre, $songs;
+    public $id, $name, $active_years, $country, $genre, $songs_ids, $songs;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -65,8 +65,9 @@ class Performer extends BaseModel {
         $query = DB::connection()->prepare($sql_string);
         $query->execute($this->create_array());
         $row = $query->fetch();
-
         $this->id = $row['id'];
+        
+        $this->add_to_perfsong();
     }
 
     public function update() {
@@ -79,8 +80,9 @@ class Performer extends BaseModel {
                 . 'genre = :genre '
                 . 'WHERE id = :id';
         $query = DB::connection()->prepare($sql_string);
-
         $query->execute($attributes);
+        
+        $this->update_perfsong();
     }
 
     public function destroy() {
@@ -107,6 +109,29 @@ class Performer extends BaseModel {
             'country' => $this->country,
             'genre' => $this->genre
         );
+    }
+    
+    private function add_to_perfsong() {
+        if (!empty($this->songs_ids) && !is_null($this->songs_ids)) {
+            $song_and_perf_ids = array('perf_id' => $this->id);
+
+            foreach ($this->songs_ids as $song_id) {
+                $sql_two = 'INSERT INTO PerfSong (song_id, perf_id) VALUES ('
+                        . ':song_id, :perf_id'
+                        . ')';
+                $query = DB::connection()->prepare($sql_two);
+                $song_and_perf_ids['song_id'] = $song_id;
+                $query->execute($song_and_perf_ids);
+            }
+        }
+    }
+
+    private function update_perfsong() {
+        $query = DB::connection()->prepare(
+                'DELETE FROM PerfSong WHERE perf_id = :id');
+        $query->execute(array('id' => $this->id));
+
+        $this->add_to_perfsong();
     }
 
     private function find_associated_songs() {

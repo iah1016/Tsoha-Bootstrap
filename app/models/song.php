@@ -8,7 +8,7 @@
 class Song extends BaseModel {
 
     public $id, $name, $written_by, $year, $country, $genre, $ytube_id,
-            $chants, $performers;
+            $chants, $perfs_ids, $performers;
 
     public function __construct($attributes) {
         parent::__construct($attributes);
@@ -51,7 +51,7 @@ class Song extends BaseModel {
                 . 'INNER JOIN Song ON Song.id = PerfSong.song_id '
                 . 'WHERE PerfSong.perf_id = :id;';
         $rows = parent::find_all_rows_with_id($sql_string, $perf_id);
-        
+
         foreach ($rows as $row) {
             $songs[] = self::create_new_song($row);
         }
@@ -68,8 +68,9 @@ class Song extends BaseModel {
         $query = DB::connection()->prepare($sql_string);
         $query->execute($this->create_array());
         $row = $query->fetch();
-
         $this->id = $row['id'];
+        
+        $this->add_to_perfsong();
     }
 
     public function update() {
@@ -84,8 +85,9 @@ class Song extends BaseModel {
                 . 'ytube_id = :ytube_id '
                 . 'WHERE id = :id';
         $query = DB::connection()->prepare($sql_string);
-
         $query->execute($attributes);
+        
+        $this->update_perfsong();
     }
 
     public function destroy() {
@@ -117,6 +119,29 @@ class Song extends BaseModel {
             'genre' => $this->genre,
             'ytube_id' => $this->ytube_id
         );
+    }
+
+    private function add_to_perfsong() {
+        if (!empty($this->perfs_ids) && !is_null($this->perfs_ids)) {
+            $song_and_perf_ids = array('song_id' => $this->id);
+
+            foreach ($this->perfs_ids as $perf_id) {
+                $sql_two = 'INSERT INTO PerfSong (song_id, perf_id) VALUES ('
+                        . ':song_id, :perf_id'
+                        . ')';
+                $query = DB::connection()->prepare($sql_two);
+                $song_and_perf_ids['perf_id'] = $perf_id;
+                $query->execute($song_and_perf_ids);
+            }
+        }
+    }
+
+    private function update_perfsong() {
+        $query = DB::connection()->prepare(
+                'DELETE FROM PerfSong WHERE song_id = :id');
+        $query->execute(array('id' => $this->id));
+
+        $this->add_to_perfsong();
     }
 
     private function find_associated_chants_and_performers() {

@@ -15,14 +15,24 @@ class SongController extends BaseController {
     public static function create() {
         self::check_logged_in();
 
-        View::make('song/song_new.html');
+        $performers = Performer::all();
+        View::make('song/song_new.html', array(
+            'performers' => $performers
+        ));
     }
 
     public static function store() {
         self::check_logged_in();
 
         $params = $_POST;
-        $attributes = self::create_attribute_array($params);
+
+        if (isset($params['performers'])) {
+            $performers = $params['performers'];
+        } else {
+            $performers = array();
+        }
+
+        $attributes = self::create_attribute_array($params, $performers);
         $song = new Song($attributes);
 
         self::try_adding_or_updating($song, $attributes, 'new', 'added');
@@ -32,14 +42,23 @@ class SongController extends BaseController {
         self::check_logged_in();
 
         $song = Song::find($id);
-        View::make('song/song_edit.html', array('attributes' => $song));
+        $performers = Performer::all();
+        View::make('song/song_edit.html', array('attributes' => $song,
+            'performers' => $performers));
     }
 
     public static function update($id) {
         self::check_logged_in();
 
         $params = $_POST;
-        $attributes = self::create_attribute_array($params);
+
+        if (isset($params['performers'])) {
+            $performers = $params['performers'];
+        } else {
+            $performers = array();
+        }
+
+        $attributes = self::create_attribute_array($params, $performers);
         $attributes['id'] = $id;
         $song = new Song($attributes);
 
@@ -59,8 +78,10 @@ class SongController extends BaseController {
             Redirect::to('/song/' . $song->id, array(
                 'message' => 'Song ' . $action_string . ' successfully'));
         } else {
+            $performers = Performer::all();
             View::make('song/song_' . $redirect_on_fail . '.html', array(
-                'errors' => $errors, 'attributes' => $attributes));
+                'errors' => $errors, 'attributes' => $attributes,
+                'performers' => $performers));
         }
     }
 
@@ -74,15 +95,22 @@ class SongController extends BaseController {
             'message' => 'Song removed successfully'));
     }
 
-    private static function create_attribute_array(array $params) {
-        return array(
+    private static function create_attribute_array
+    (array $params, array $performers) {
+        $attributes = array(
             'name' => $params['name'],
             'written_by' => $params['written_by'],
             'year' => $params['year'],
             'country' => $params['country'],
             'genre' => $params['genre'],
-            'ytube_id' => $params['ytube_id']
+            'ytube_id' => $params['ytube_id'],
+            'perfs_ids' => array()
         );
+        foreach ($performers as $performer) {
+            $attributes['perfs_ids'][] = $performer;
+        }
+
+        return $attributes;
     }
 
 }
