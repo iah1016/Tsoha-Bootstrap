@@ -34,9 +34,9 @@
         {% if performer.songs is empty %}
         <tr><td>none</td></tr>
         {% else %}
-            {% for song in performer.songs %}
-            <tr><td><a href="{{base_path}}/song/{{song.id}}">{{song.name}}</a></td></tr>
-            {% endfor %}
+        {% for song in performer.songs %}
+        <tr><td><a href="{{base_path}}/song/{{song.id}}">{{song.name}}</a></td></tr>
+        {% endfor %}
         {% endif %}
     </thead>
 </table>

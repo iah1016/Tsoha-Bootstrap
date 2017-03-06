@@ -28,11 +28,11 @@
             <th>Associated Club(s)</th>
         </tr>
         {% if chant.clubs is empty %}
-            <tr><td>none</td></tr>
+        <tr><td>none</td></tr>
         {% else %}
-            {% for club in chant.clubs %}
-            <tr><td><a href="{{base_path}}/club/{{club.id}}">{{club.name}}</a></td></tr>
-            {% endfor %}
+        {% for club in chant.clubs %}
+        <tr><td><a href="{{base_path}}/club/{{club.id}}">{{club.name}}</a></td></tr>
+        {% endfor %}
         {% endif %}
     </thead>
 </table>

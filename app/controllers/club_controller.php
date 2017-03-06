@@ -29,7 +29,7 @@ class ClubController extends BaseController {
         } else {
             $chants = array();
         }
-        
+
         $attributes = self::create_attribute_array($params, $chants);
 
         $club = new Club($attributes);
@@ -50,13 +50,13 @@ class ClubController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-        
+
         if (isset($params['chants'])) {
             $chants = $params['chants'];
         } else {
             $chants = array();
         }
-        
+
         $attributes = self::create_attribute_array($params, $chants);
         $attributes['id'] = $id;
         $club = new Club($attributes);

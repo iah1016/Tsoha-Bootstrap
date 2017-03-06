@@ -33,7 +33,7 @@ class User extends BaseModel {
             ));
         } else {
             return null;
-        }  
+        }
     }
 
     public static function find($id) {
@@ -43,13 +43,13 @@ class User extends BaseModel {
         );
         $query->execute(array('id' => $id));
         $result = $query->fetch();
-        
+
         if ($result) {
             return new User(array(
                 'id' => $result['id'],
                 'username' => $result['username'],
                 'password' => $result['password']
-                ));
+            ));
         } else {
             return null;
         }

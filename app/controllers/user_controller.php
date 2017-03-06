@@ -1,7 +1,7 @@
 <?php
 
 class UserController extends BaseController {
-    
+
     public static function login() {
         View::make('user/login.html', array(
             'transparent' => 'say no to white background!'));

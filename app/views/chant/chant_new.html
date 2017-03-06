@@ -28,11 +28,11 @@
         <label>Original Song</label>
         <select class="form-control" name="song">
             {% for song in songs %}
-                {% if song.id == attributes.song_object.id %}
-                    <option value="{{song.id}}" selected>{{song.name}}</option>
-                {% else %}
-                    <option value="{{song.id}}">{{song.name}}</option>
-                {% endif %}
+            {% if song.id == attributes.song_object.id %}
+            <option value="{{song.id}}" selected>{{song.name}}</option>
+            {% else %}
+            <option value="{{song.id}}">{{song.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>
@@ -45,7 +45,7 @@
             {% endfor %}
         </select>
     </div>
-    
+
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Add</button>
     </div>

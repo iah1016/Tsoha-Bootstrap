@@ -69,7 +69,7 @@ class Song extends BaseModel {
         $query->execute($this->create_array());
         $row = $query->fetch();
         $this->id = $row['id'];
-        
+
         $this->add_to_perfsong();
     }
 
@@ -86,7 +86,7 @@ class Song extends BaseModel {
                 . 'WHERE id = :id';
         $query = DB::connection()->prepare($sql_string);
         $query->execute($attributes);
-        
+
         $this->update_perfsong();
     }
 
