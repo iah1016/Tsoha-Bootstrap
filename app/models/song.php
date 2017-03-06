@@ -147,6 +147,9 @@ class Song extends BaseModel {
     private function find_associated_chants_and_performers() {
         $this->chants = Chant::find_associated_chants_with_song_id($this->id);
         $this->performers = Performer::find_all_performers_with_song_id($this->id);
+        foreach ($this->performers as $performer) {
+            $this->perfs_ids[] = $performer->id;
+        }
     }
 
     private function use_default_youtube_video_if_null() {

@@ -38,7 +38,11 @@
         <label>Associated Songs</label>
         <select class="form-control" name="songs[]" multiple="">
             {% for song in songs %}
+            {% if song.id in attributes.songs_ids %}
+            <option value="{{song.id}}" selected>{{song.name}}</option>
+            {% else %}
             <option value="{{song.id}}">{{song.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>

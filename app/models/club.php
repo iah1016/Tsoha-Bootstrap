@@ -131,6 +131,9 @@ class Club extends BaseModel {
 
     private function find_associated_chants() {
         $this->chants = Chant::find_all_chants_with_club_id($this->id);
+        foreach ($this->chants as $chant) {
+            $this->chants_ids[] = $chant->id;
+        }
     }
 
     // validators

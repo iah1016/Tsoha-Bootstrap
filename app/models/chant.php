@@ -32,7 +32,9 @@ class Chant extends BaseModel {
         $row = parent::find_row_from_table('Chant', $id);
 
         if ($row) {
-            return self::create_new_chant($row);
+            $chant = self::create_new_chant($row);
+            $chant->find_associated_clubs();
+            return $chant;
         }
         return null;
     }
@@ -140,6 +142,12 @@ class Chant extends BaseModel {
         $query->execute(array('id' => $this->id));
 
         $this->add_to_clubchant();
+    }
+
+    private function find_associated_clubs() {
+        foreach ($this->clubs as $club) {
+            $this->clubs_ids[] = $club->id;
+        }
     }
 
     // validators

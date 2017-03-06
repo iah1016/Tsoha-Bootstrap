@@ -48,7 +48,11 @@
         <label>Associated Performers</label>
         <select class="form-control" name="performers[]" multiple="">
             {% for performer in performers %}
+            {% if performer.id in attributes.perfs_ids %}
+            <option value="{{performer.id}}" selected>{{performer.name}}</option>
+            {% else %}
             <option value="{{performer.id}}">{{performer.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>

@@ -66,7 +66,7 @@ class Performer extends BaseModel {
         $query->execute($this->create_array());
         $row = $query->fetch();
         $this->id = $row['id'];
-        
+
         $this->add_to_perfsong();
     }
 
@@ -81,7 +81,7 @@ class Performer extends BaseModel {
                 . 'WHERE id = :id';
         $query = DB::connection()->prepare($sql_string);
         $query->execute($attributes);
-        
+
         $this->update_perfsong();
     }
 
@@ -110,7 +110,7 @@ class Performer extends BaseModel {
             'genre' => $this->genre
         );
     }
-    
+
     private function add_to_perfsong() {
         if (!empty($this->songs_ids) && !is_null($this->songs_ids)) {
             $song_and_perf_ids = array('perf_id' => $this->id);
@@ -136,6 +136,9 @@ class Performer extends BaseModel {
 
     private function find_associated_songs() {
         $this->songs = Song::find_all_songs_with_perf_id($this->id);
+        foreach ($this->songs as $song) {
+            $this->songs_ids[] = $song->id;
+        }
     }
 
     // validators
@@ -154,6 +157,11 @@ class Performer extends BaseModel {
             }
             if (!is_numeric($left) || !is_numeric($right)) {
                 $errors[] = 'The correct format for Active years is YYYY-YYYY.';
+            } else {
+                if ($left > $right) {
+                    $errors[] = 'The ending year cannot be smaller than the '
+                            . 'founding year.';
+                }
             }
         }
         return $errors;

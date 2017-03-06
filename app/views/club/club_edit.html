@@ -33,7 +33,11 @@
         <label>Associated Chants</label>
         <select class="form-control" name="chants[]" multiple="">
             {% for chant in chants %}
+            {% if chant.id in attributes.chants_ids %}
+            <option value="{{chant.id}}" selected>{{chant.name}}</option>
+            {% else %}
             <option value="{{chant.id}}">{{chant.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>

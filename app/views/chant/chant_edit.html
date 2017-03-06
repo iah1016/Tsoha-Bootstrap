@@ -41,7 +41,11 @@
         <label>Associated Clubs</label>
         <select class="form-control" name="clubs[]" multiple="">
             {% for club in clubs %}
+            {% if club.id in attributes.clubs_ids %}
+            <option value="{{club.id}}" selected>{{club.name}}</option>
+            {% else %}
             <option value="{{club.id}}">{{club.name}}</option>
+            {% endif %}
             {% endfor %}
         </select>
     </div>
