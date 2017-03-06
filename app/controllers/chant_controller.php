@@ -25,14 +25,9 @@ class ChantController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-        //
-        if (isset($params['clubs'])) {
-            $clubs = $params['clubs'];
-        } else {
-            $clubs = array();
-        }
+        $clubs = self::clubs_isset_check($params);
+
         $attributes = self::create_attribute_array($params, $clubs);
-        //
         $chant = new Chant($attributes);
 
         self::try_adding_or_updating($chant, $attributes, 'new', 'added');
@@ -52,18 +47,21 @@ class ChantController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-        //
-        if (isset($params['clubs'])) {
-            $clubs = $params['clubs'];
-        } else {
-            $clubs = array();
-        }
+        $clubs = self::clubs_isset_check($params);
+
         $attributes = self::create_attribute_array($params, $clubs);
-        //
         $attributes['id'] = $id;
         $chant = new Chant($attributes);
 
         self::try_adding_or_updating($chant, $attributes, 'edit', 'edited');
+    }
+
+    private static function clubs_isset_check($params) {
+        if (isset($params['clubs'])) {
+            return $params['clubs'];
+        } else {
+            return array();
+        }
     }
 
     private static function try_adding_or_updating

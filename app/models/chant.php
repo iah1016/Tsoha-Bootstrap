@@ -19,7 +19,8 @@ class Chant extends BaseModel {
 
     // read
     public static function all() {
-        $rows = parent::find_all_rows_from_table('Chant');
+        $sql_string = 'SELECT * FROM Chant ORDER BY name ASC';
+        $rows = parent::find_all_rows_from_table($sql_string);
         $chants = array();
 
         foreach ($rows as $row) {
@@ -29,7 +30,8 @@ class Chant extends BaseModel {
     }
 
     public static function find($id) {
-        $row = parent::find_row_from_table('Chant', $id);
+        $sql_string = 'SELECT * FROM Chant WHERE id = :id LIMIT 1';
+        $row = parent::find_row_from_table($sql_string, $id);
 
         if ($row) {
             $chant = self::create_new_chant($row);

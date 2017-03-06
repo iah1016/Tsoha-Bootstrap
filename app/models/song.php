@@ -24,7 +24,8 @@ class Song extends BaseModel {
 
     // read
     public static function all() {
-        $rows = parent::find_all_rows_from_table('Song');
+        $sql_string = 'SELECT * FROM Song ORDER BY name ASC';
+        $rows = parent::find_all_rows_from_table($sql_string);
         $songs = array();
 
         foreach ($rows as $row) {
@@ -34,7 +35,8 @@ class Song extends BaseModel {
     }
 
     public static function find($id) {
-        $row = parent::find_row_from_table('Song', $id);
+        $sql_string = 'SELECT * FROM Song WHERE id = :id LIMIT 1';
+        $row = parent::find_row_from_table($sql_string, $id);
 
         if ($row) {
             $song = self::create_new_song($row);

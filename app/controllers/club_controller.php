@@ -23,15 +23,9 @@ class ClubController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-
-        if (isset($params['chants'])) {
-            $chants = $params['chants'];
-        } else {
-            $chants = array();
-        }
+        $chants = self::chants_isset_check($params);
 
         $attributes = self::create_attribute_array($params, $chants);
-
         $club = new Club($attributes);
 
         self::try_adding_or_updating($club, $attributes, 'new', 'added');
@@ -50,18 +44,21 @@ class ClubController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-
-        if (isset($params['chants'])) {
-            $chants = $params['chants'];
-        } else {
-            $chants = array();
-        }
+        $chants = self::chants_isset_check($params);
 
         $attributes = self::create_attribute_array($params, $chants);
         $attributes['id'] = $id;
         $club = new Club($attributes);
 
         self::try_adding_or_updating($club, $attributes, 'edit', 'edited');
+    }
+
+    private static function chants_isset_check($params) {
+        if (isset($params['chants'])) {
+            return $params['chants'];
+        } else {
+            return array();
+        }
     }
 
     private static function try_adding_or_updating

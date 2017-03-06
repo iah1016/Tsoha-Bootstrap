@@ -27,12 +27,7 @@ class PerformerController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-
-        if (isset($params['songs'])) {
-            $songs = $params['songs'];
-        } else {
-            $songs = array();
-        }
+        $songs = self::songs_isset_check($params);
 
         $attributes = self::create_attribute_array($params, $songs);
         $performer = new Performer($attributes);
@@ -53,18 +48,21 @@ class PerformerController extends BaseController {
         self::check_logged_in();
 
         $params = $_POST;
-
-        if (isset($params['songs'])) {
-            $songs = $params['songs'];
-        } else {
-            $songs = array();
-        }
+        $songs = self::songs_isset_check($params);
 
         $attributes = self::create_attribute_array($params, $songs);
         $attributes['id'] = $id;
         $performer = new Performer($attributes);
 
         self::try_adding_or_updating($performer, $attributes, 'edit', 'edited');
+    }
+
+    private static function songs_isset_check($params) {
+        if (isset($params['songs'])) {
+            return $params['songs'];
+        } else {
+            return array();
+        }
     }
 
     private static function try_adding_or_updating

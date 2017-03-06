@@ -20,7 +20,8 @@ class Club extends BaseModel {
 
     // read
     public static function all() {
-        $rows = parent::find_all_rows_from_table('Club');
+        $sql_string = 'SELECT * FROM Club ORDER BY name ASC';
+        $rows = parent::find_all_rows_from_table($sql_string);
         $clubs = array();
 
         foreach ($rows as $row) {
@@ -30,7 +31,8 @@ class Club extends BaseModel {
     }
 
     public static function find($id) {
-        $row = parent::find_row_from_table('Club', $id);
+        $sql_string = 'SELECT * FROM Club WHERE id = :id LIMIT 1';
+        $row = parent::find_row_from_table($sql_string, $id);
 
         if ($row) {
             $club = self::create_new_club($row);

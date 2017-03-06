@@ -21,7 +21,8 @@ class Performer extends BaseModel {
 
     // read
     public static function all() {
-        $rows = parent::find_all_rows_from_table('Performer');
+        $sql_string = 'SELECT * FROM Performer ORDER BY name ASC';
+        $rows = parent::find_all_rows_from_table($sql_string);
         $performers = array();
 
         foreach ($rows as $row) {
@@ -31,7 +32,8 @@ class Performer extends BaseModel {
     }
 
     public static function find($id) {
-        $row = parent::find_row_from_table('Performer', $id);
+        $sql_string = 'SELECT * FROM Performer WHERE id = :id LIMIT 1';
+        $row = parent::find_row_from_table($sql_string, $id);
 
         if ($row) {
             $performer = self::create_new_performer($row);
